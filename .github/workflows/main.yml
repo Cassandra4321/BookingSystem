@@ -1,0 +1,33 @@
+name: Build .NET project
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v4
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 9.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore Backend/BookingSystem/BookingSystem.sln
+
+    - name: Build project
+      run: dotnet build Backend/BookingSystem/BookingSystem.sln --no-restore
+
+    - name: Show success message
+      if: success()
+      run: echo "✅ Build was successful!"
+
+    - name: Show failure message
+      if: failure()
+      run: echo "❌ Something went wrong when building!"
