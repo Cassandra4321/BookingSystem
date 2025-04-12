@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using BookingSystem.API.Data;
 using BookingSystem.API.Models;
+using Microsoft.AspNetCore.Identity;
 namespace BookingSystem
 {
     public class Program
@@ -21,6 +22,10 @@ namespace BookingSystem
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             var app = builder.Build();
+
+            builder.Services.AddIdentity<AppUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

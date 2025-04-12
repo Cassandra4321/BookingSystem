@@ -1,14 +1,23 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingSystem.API.Models
 {
     public class Booking
     {
-        [Required]
+        [Key]
         public int Id { get; set; }
-        public int UserId { get; set; }
-        public User? User { get; set; }
+
+        [Required]
+        public string UserId { get; set; } = null!;
+
+        [ForeignKey("UserId")]
+        public AppUser User { get; set; } = null!;
+
+        [Required]
         public int WorkoutClassId { get; set; }
-        public WorkoutClass? WorkoutClass { get; set; }
+
+        [ForeignKey("WorkoutClassId")]
+        public WorkoutClass WorkoutClass { get; set; } = null!;
     }
 }

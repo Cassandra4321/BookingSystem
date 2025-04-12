@@ -4,7 +4,7 @@ namespace BookingSystem.API.Models
 {
     public class WorkoutClass
     {
-        [Required]
+        [Key]
         public int Id { get; set; }
 
         [Required]
