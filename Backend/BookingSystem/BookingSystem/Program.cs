@@ -51,6 +51,7 @@ namespace BookingSystem
             });
 
             builder.Services.AddScoped<JwtService>();
+            builder.Services.AddScoped<WorkoutClassService>();
 
             var app = builder.Build();
 
