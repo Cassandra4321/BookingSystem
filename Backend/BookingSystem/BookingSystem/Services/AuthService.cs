@@ -1,6 +1,8 @@
 ﻿using BookingSystem.API.Models;
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using BookingSystem.API.Services;
 
 namespace BookingSystem.API.Services
 {
@@ -8,11 +10,12 @@ namespace BookingSystem.API.Services
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-
-        public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        private readonly JwtService _jwtService;
+        public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, JwtService jwtService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _jwtService = jwtService;
         }
 
         public async Task<IdentityResult> RegisterUserAsync(Register register)
@@ -30,14 +33,19 @@ namespace BookingSystem.API.Services
             return result;
         }
 
-        public async Task<SignInResult> LoginUserAsync(Login login)
+        public async Task<LoginResult> LoginUserAsync(Login login)
         {
             var user = await _userManager.FindByEmailAsync(login.Email);
             if (user != null)
             {
-                return await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
+                var result = await _signInManager.CheckPasswordSignInAsync(user, login.Password, false);
+                if (result.Succeeded)
+                {
+                    var token = _jwtService.GenerateToken(user);
+                    return new LoginResult { Success = true, Token = token };
+                }
             }
-            return SignInResult.Failed;
+            return new LoginResult { Success = false };
         }
     }
 }
