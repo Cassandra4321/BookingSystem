@@ -33,13 +33,13 @@ namespace BookingSystem.API.Controllers
 
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseTypeAttribute(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Login([FromBody] Login login)
         {
             var result = await _authService.LoginUserAsync(login);
-            if (result.Succeeded)
+            if (result.Success)
             {
-                return Ok("User logged in successfully!");
+                return Ok(new { token = result.Token });
             }
             return Unauthorized("Invalid login attempt.");
         }
