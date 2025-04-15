@@ -52,31 +52,31 @@ namespace BookingSystem.API.Controllers
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateWorkoutClass(int id, [FromBody] UpdateWorkoutClassDto dto)
         {
-            var success = await _workoutClassService.UpdateWorkoutClassAsync(id, dto);
+            var updateWorkoutClass = await _workoutClassService.UpdateWorkoutClassAsync(id, dto);
 
-            if (!success)
+            if (updateWorkoutClass == null)
             {
                 return NotFound($"Workout class with ID {id} not found.");
             }
-            return NoContent();
+            return Ok(updateWorkoutClass);
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteWorkoutClass(int id)
         {
-            var success = await _workoutClassService.DeleteWorkoutClassAsync(id);
-            if (!success)
+            var deleted = await _workoutClassService.DeleteWorkoutClassAsync(id);
+            if (!deleted)
             {
                 return NotFound($"Workout class with ID {id} not found.");
             }
-            return NoContent();
+            return Ok($"Booking with ID {id} deleted successfully.");
         }
     }
 }

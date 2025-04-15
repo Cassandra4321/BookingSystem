@@ -41,12 +41,12 @@ namespace BookingSystem.API.Services
             return workoutClass;
         }
 
-        public async Task<bool> UpdateWorkoutClassAsync(int id, UpdateWorkoutClassDto dto)
+        public async Task<WorkoutClass?> UpdateWorkoutClassAsync(int id, UpdateWorkoutClassDto dto)
         {
             var existingWorkoutClass = await _context.WorkoutClasses.FindAsync(id);
             if (existingWorkoutClass == null)
             {
-                return false;
+                return null;
             }
 
             existingWorkoutClass.WorkoutName = dto.WorkoutName;
@@ -56,7 +56,7 @@ namespace BookingSystem.API.Services
             existingWorkoutClass.MaxParticipants = dto.MaxParticipants;
 
             await _context.SaveChangesAsync();
-            return true;
+            return existingWorkoutClass;
         }
 
         public async Task<bool> DeleteWorkoutClassAsync(int id)
