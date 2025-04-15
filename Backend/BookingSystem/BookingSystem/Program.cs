@@ -50,11 +50,25 @@ namespace BookingSystem
                 };
             });
 
+            // Allow CORS for frontend use
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend",
+                    policy =>
+                    {
+                        policy.AllowAnyOrigin()
+                               .AllowAnyMethod()
+                               .AllowAnyHeader();
+                    });
+            });
+
             builder.Services.AddScoped<JwtService>();
             builder.Services.AddScoped<WorkoutClassService>();
             builder.Services.AddScoped<BookingService>();
 
             var app = builder.Build();
+
+            app.UseCors("AllowFrontend");
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
