@@ -18,6 +18,7 @@ export function Navbar() {
         <nav className="navbar navbar-expand-lg navbar-light bg-light px-4">
             <div className="container-fluid d-flex justify-content-between align-items-center">
                 <Link to="/" className="btn btn-zen fw-bold fs-4">ZenGym</Link>
+                <Link to="/classes" className="nav-link">Träningspass</Link>
 
                 <div className="d-flex align-items-center">
                     {!isLoggedIn ? (

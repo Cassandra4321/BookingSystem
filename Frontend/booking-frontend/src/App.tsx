@@ -5,6 +5,7 @@ import { HomePage } from './pages/Home/HomePage'
 import { AuthProvider } from './context/AuthProvider';
 import { AdminRoute } from './components/ProtectedRoute/AdminRoute';
 import { AdminDashboardPage } from './pages/Admin/AdminDashboardPage';
+import { WorkoutClassesPage } from './pages/WorkoutClasses/WorkoutClassesPage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
 
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/classes" element={<WorkoutClassesPage/>} />
 
           <Route
           path="/admin-dashboard"
