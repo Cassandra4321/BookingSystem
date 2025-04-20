@@ -7,10 +7,12 @@
 /* tslint:disable */
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
+
 export interface LoginResponse {
     token: string;
     firstName: string;
     lastName: string;
+    isAdmin: boolean;
   }
 export class ApiClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };

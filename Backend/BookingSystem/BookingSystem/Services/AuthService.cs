@@ -44,7 +44,8 @@ namespace BookingSystem.API.Services
                         Success = true, 
                         Token = token,
                         FirstName = user.FirstName,
-                        LastName = user.LastName
+                        LastName = user.LastName,
+                        IsAdmin = user.IsAdmin
                     };
                 }
             }

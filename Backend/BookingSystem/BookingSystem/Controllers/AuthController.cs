@@ -44,7 +44,8 @@ namespace BookingSystem.API.Controllers
                 {
                     Token = result.Token!,
                     FirstName = result.FirstName!,
-                    LastName = result.LastName!
+                    LastName = result.LastName!,
+                    IsAdmin = result.IsAdmin
                 };
                 return Ok(reponse);
             }
