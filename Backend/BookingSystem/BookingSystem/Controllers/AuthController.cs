@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookingSystem.API.Models;
 using BookingSystem.API.Services;
+using BookingSystem.API.Dtos;
 
 namespace BookingSystem.API.Controllers
 {
@@ -39,7 +40,13 @@ namespace BookingSystem.API.Controllers
             var result = await _authService.LoginUserAsync(login);
             if (result.Success)
             {
-                return Ok(new { token = result.Token });
+                var reponse = new LoginResponseDto
+                {
+                    Token = result.Token!,
+                    FirstName = result.FirstName!,
+                    LastName = result.LastName!
+                };
+                return Ok(reponse);
             }
             return Unauthorized("Invalid login attempt.");
         }
