@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { ApiClient, Register } from '../../domain/client'
 import { Navbar } from '../../components/Navbar/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 export function RegisterPage() {
     const [formData, setFormData] = useState<Register>(new Register());
     const [message, setMessage] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -19,7 +21,10 @@ export function RegisterPage() {
 
         try {
             await client.register(formData);
-            setMessage("Registreringen lyckades!");
+            setMessage("Registreringen lyckades! Nu kan du logga in :)");
+            setTimeout(() => {
+                navigate('/');
+            }, 2000);
         } catch (error) {
             console.error(error);
             setMessage("Registrering misslyckades.");
