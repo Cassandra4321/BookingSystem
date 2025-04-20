@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ApiClient, Register } from '../../Domain/client';
+import { ApiClient, Register } from '../../domain/client'
 import { Navbar } from '../../components/Navbar/Navbar';
 
 export function RegisterPage() {

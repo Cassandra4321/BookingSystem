@@ -1,58 +1,23 @@
 import { Link } from 'react-router-dom';
-import  React, { useEffect, useState } from 'react';
-import { ApiClient, Login } from '../../Domain/client';
+import React, { useState } from 'react';
+import { useAuth } from '../../hooks/useAuth';
+
 import './Navbar.css'
 
 export function Navbar() {
+    const { isLoggedIn, login, logout, message } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState<string | null>(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        setIsLoggedIn(!!token);
-    }, [])
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        const client = new ApiClient("https://localhost:7193")
-
-        const loginData = new Login();
-        loginData.email = email;
-        loginData.password = password;
-    
-        try {
-            const token = await client.login(loginData); 
-            localStorage.setItem('token', token as unknown as string); 
-            setIsLoggedIn(true);
-            setMessage("Inloggning lyckades!");
-            setTimeout(() => {
-                setMessage(null);
-            }, 2000)
-        } catch (error) {
-            console.error(error);
-            setMessage("Fel vid inloggning.");
-            setTimeout(() => {
-                setMessage(null);
-            }, 3000)
-        }
+        await login(email, password);
     };
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        setIsLoggedIn(false);
-        setEmail('');
-        setPassword('');
-        setMessage(null);
-    };
-
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light px-4">
             <div className="container-fluid d-flex justify-content-between align-items-center">
-
-                <Link to="/" className="btn btn-primary fw-bold fs-4">Hem</Link>
+                <Link to="/" className="btn btn-zen fw-bold fs-4">ZenGym</Link>
 
                 <div className="d-flex align-items-center">
                     {!isLoggedIn ? (
@@ -79,7 +44,7 @@ export function Navbar() {
                             <Link to="/register" className="btn btn-sm btn-outline-primary">Registrera</Link>
                         </>
                     ) : (
-                        <button className="btn btn-sm btn-danger" onClick={handleLogout}>
+                        <button className="btn btn-sm btn-danger" onClick={logout}>
                             Logga ut
                         </button>
                     )}
@@ -91,6 +56,5 @@ export function Navbar() {
                 </div>
             )}
         </nav>
-        
     );
 }

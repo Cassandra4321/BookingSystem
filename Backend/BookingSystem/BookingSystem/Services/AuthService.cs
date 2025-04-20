@@ -39,7 +39,13 @@ namespace BookingSystem.API.Services
                 if (result.Succeeded)
                 {
                     var token = _jwtService.GenerateToken(user);
-                    return new LoginResult { Success = true, Token = token };
+                    return new LoginResult 
+                    { 
+                        Success = true, 
+                        Token = token,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName
+                    };
                 }
             }
             return new LoginResult { Success = false };

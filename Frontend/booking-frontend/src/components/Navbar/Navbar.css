@@ -4,3 +4,6 @@
 .navbar .form-control {
     max-width: 150px;
 }
+.navbar {
+    background-color: #5C5470 !important;
+}
