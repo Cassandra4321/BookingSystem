@@ -1,5 +1,6 @@
 ﻿using BookingSystem.API.Models;
 using Microsoft.AspNetCore.Identity;
+using BookingSystem.API.Dtos;
 
 namespace BookingSystem.API.Services
 {
@@ -23,14 +24,14 @@ namespace BookingSystem.API.Services
                 LastName = register.LastName,
                 UserName = register.Email,
                 Email = register.Email,
+                IsAdmin = false,
 
             };
 
-            var result = await _userManager.CreateAsync(user, register.Password);
-            return result;
+            return await _userManager.CreateAsync(user, register.Password);
         }
 
-        public async Task<LoginResult> LoginUserAsync(Login login)
+        public async Task<LoginResponseDto?> LoginUserAsync(Login login)
         {
             var user = await _userManager.FindByEmailAsync(login.Email);
             if (user != null)
@@ -39,9 +40,8 @@ namespace BookingSystem.API.Services
                 if (result.Succeeded)
                 {
                     var token = _jwtService.GenerateToken(user);
-                    return new LoginResult 
-                    { 
-                        Success = true, 
+                    return new LoginResponseDto
+                    {
                         Token = token,
                         FirstName = user.FirstName,
                         LastName = user.LastName,
@@ -49,7 +49,7 @@ namespace BookingSystem.API.Services
                     };
                 }
             }
-            return new LoginResult { Success = false };
+            return null;
         }
     }
 }

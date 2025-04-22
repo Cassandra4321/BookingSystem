@@ -19,7 +19,7 @@ namespace BookingSystem.API.Services
             return await _context.WorkoutClasses.ToListAsync();
         }
 
-        public async Task<WorkoutClass> GetWorkoutClassByIdAsync(int id)
+        public async Task<WorkoutClass?> GetWorkoutClassByIdAsync(int id)
         {
             return await _context.WorkoutClasses
                 .Include(w => w.Bookings)
