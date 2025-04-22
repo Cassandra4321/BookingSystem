@@ -1,0 +1,35 @@
+.btn-enhanced {
+    background: linear-gradient(to right, #cbdfd3, #ddf1ea);
+    color: #5C5470;
+    border: none;
+    padding: 0.6rem 1.6rem;
+    border-radius: 1.5rem;
+    font-size: 1.05rem;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    outline: none;
+  }
+  
+  .btn-enhanced:hover {
+    background: linear-gradient(to right, #C8D8D4, #dae8e3);
+    color: #3E3A50;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+  }
+  
+  .btn-enhanced:active {
+    transform: scale(0.98);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  }
+  
+  .btn-enhanced[type="reset"] {
+    background: linear-gradient(to right, #b0c2be, #c2d2ce);
+    color: #3E3A50;
+  }
+  
+  .btn-enhanced[type="reset"]:hover {
+    background: linear-gradient(to right, #9bb2ae, #b5c8c2);
+  }

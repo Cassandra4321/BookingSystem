@@ -10,11 +10,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const name = localStorage.getItem('firstName');
-    const admin = localStorage.getItem('isAdmin');
+    const token = localStorage.getItem('token') ?? '';
+    const name = localStorage.getItem('firstName') ?? '';
+    const admin = localStorage.getItem('isAdmin') ?? 'false';
 
-    setIsLoggedIn(!!token);
+    setIsLoggedIn(token !== '');
     setFirstName(name);
     setIsAdmin(admin === 'true');
     setIsLoading(false);
@@ -28,6 +28,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     try {
       const response = await client.login(loginData);
+      if (!response.token || !response.firstName || response.isAdmin === undefined) {
+        throw new Error("Ogiltligt svar från servern.")
+      }
+
       localStorage.setItem('token', response.token);
       localStorage.setItem('firstName', response.firstName);
       localStorage.setItem('isAdmin', response.isAdmin.toString());

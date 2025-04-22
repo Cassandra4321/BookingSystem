@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
-
+import { useNavigate } from 'react-router-dom';
+import { AppButton } from '../Button/Button.component';
+import { AppLinkButton } from '../Link/Link.component';
 import './Navbar.css'
 
 export function Navbar() {
@@ -9,9 +11,17 @@ export function Navbar() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const navigate = useNavigate();
+
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         await login(email, password);
+        navigate('/');
+    };
+
+    const handleLogout = () => {
+        logout();
+        navigate('/');
     };
 
     return (
@@ -40,14 +50,14 @@ export function Navbar() {
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
-                                <button type="submit" className="btn btn-sm btn-outline-success">Logga in</button>
+                                <AppButton type="submit">Logga in</AppButton>
                             </form>
-                            <Link to="/register" className="btn btn-sm btn-outline-primary">Registrera</Link>
+                            <AppLinkButton to="/register">Registrera</AppLinkButton>
                         </>
                     ) : (
-                        <button className="btn btn-sm btn-danger" onClick={logout}>
+                        <AppButton type="reset" onClick={handleLogout}>
                             Logga ut
-                        </button>
+                        </AppButton>
                     )}
                 </div>
             </div>

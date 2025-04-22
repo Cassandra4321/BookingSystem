@@ -6,7 +6,7 @@ interface Props {
   children: ReactNode;
 }
 
-export function ProtectedRoute({ children }: Props) {
+export function UserRoute({ children }: Props) {
   const { isLoggedIn } = useAuth();
 
   if (!isLoggedIn) {

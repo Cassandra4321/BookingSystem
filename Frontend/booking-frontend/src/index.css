@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
 
-
 body {
     background-color: #b4cecb !important;
     margin: 0;
@@ -9,14 +8,11 @@ body {
     color: #3E3A50;
 }
 
-
 h1, h2, h3 {
     color: #5C5470;
     font-weight: 600;
 }
 
-
-/* ZenKnapp */
 .btn-zen {
     background-color: #D8E2DC;
     color: #5C5470;
@@ -29,19 +25,16 @@ h1, h2, h3 {
     display: inline-block;
 }
 
-
 .btn-zen:hover {
     background-color: #C8D8D4;
     color: #3E3A50;
     cursor: pointer;
 }
 
-
 a {
     text-decoration: none;
     color: #5C5470;
 }
-
 
 a:hover {
     color: #3E3A50;
