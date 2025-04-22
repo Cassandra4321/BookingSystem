@@ -4,6 +4,7 @@ import { RegisterPage } from './pages/Register/RegisterPage'
 import { HomePage } from './pages/Home/HomePage'
 import { AuthProvider } from './context/AuthProvider';
 import { AdminRoute } from './components/ProtectedRoute/AdminRoute';
+import { UserRoute } from './components/ProtectedRoute/UserRoute';
 import { AdminDashboardPage } from './pages/Admin/AdminDashboardPage';
 import { WorkoutClassesPage } from './pages/WorkoutClasses/WorkoutClassesPage';
 
@@ -14,7 +15,14 @@ function App() {
 
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/classes" element={<WorkoutClassesPage/>} />
+          <Route 
+            path="/classes" 
+            element={
+              <UserRoute>
+                <WorkoutClassesPage/>
+              </UserRoute>
+            } 
+          />
 
           <Route
           path="/admin-dashboard"
@@ -24,6 +32,7 @@ function App() {
             </AdminRoute>
           }
         />
+
         </Routes>
     </AuthProvider>
   )

@@ -8,12 +8,6 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
-export interface LoginResponse {
-    token: string;
-    firstName: string;
-    lastName: string;
-    isAdmin: boolean;
-  }
 export class ApiClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
@@ -73,7 +67,7 @@ export class ApiClient {
      * @param body (optional) 
      * @return OK
      */
-    login(body?: Login | undefined): Promise<LoginResponse> {
+    login(body?: Login | undefined): Promise<LoginResponseDto> {
         let url_ = this.baseUrl + "/api/Auth/login";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -84,6 +78,7 @@ export class ApiClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "text/plain"
             }
         };
 
@@ -92,33 +87,29 @@ export class ApiClient {
         });
     }
 
-    protected processLogin(response: Response): Promise<LoginResponse> {
+    protected processLogin(response: Response): Promise<LoginResponseDto> {
         const status = response.status;
-        let _headers: any = {};
-        if (response.headers && response.headers.forEach) {
-            response.headers.forEach((v: any, k: any) => _headers[k] = v);
-        }
-    
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-                let result: LoginResponse = null as any;
-                result = _responseText === "" ? null as any : JSON.parse(_responseText, this.jsonParseReviver);
-                return result;
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = LoginResponseDto.fromJS(resultData200);
+            return result200;
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
-                let result401: any = null;
-                let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result401 = ProblemDetails.fromJS(resultData401);
-                return throwException("Unauthorized", status, _responseText, _headers, result401);
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-    
-        return Promise.resolve<LoginResponse>(null as any);
+        return Promise.resolve<LoginResponseDto>(null as any);
     }
 
     /**
@@ -269,61 +260,6 @@ export class ApiClient {
     }
 
     /**
-     * @param body (optional) 
-     * @return OK
-     */
-    bookingPUT(id: number, body?: BookingInputDto | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/api/Booking/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_: RequestInit = {
-            body: content_,
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processBookingPUT(_response);
-        });
-    }
-
-    protected processBookingPUT(response: Response): Promise<void> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            return;
-            });
-        } else if (status === 404) {
-            return response.text().then((_responseText) => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = ProblemDetails.fromJS(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<void>(null as any);
-    }
-
-    /**
      * @return OK
      */
     bookingDELETE(id: number): Promise<void> {
@@ -364,6 +300,60 @@ export class ApiClient {
             });
         }
         return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    user(userId: string): Promise<BookingOutputDto[]> {
+        let url_ = this.baseUrl + "/api/Booking/user/{userId}";
+        if (userId === undefined || userId === null)
+            throw new Error("The parameter 'userId' must be defined.");
+        url_ = url_.replace("{userId}", encodeURIComponent("" + userId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "text/plain"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUser(_response);
+        });
+    }
+
+    protected processUser(response: Response): Promise<BookingOutputDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(BookingOutputDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return result200;
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BookingOutputDto[]>(null as any);
     }
 
     /**
@@ -970,6 +960,54 @@ export class Login implements ILogin {
 export interface ILogin {
     email: string;
     password: string;
+}
+
+export class LoginResponseDto implements ILoginResponseDto {
+    token?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    isAdmin?: boolean;
+
+    constructor(data?: ILoginResponseDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.token = _data["token"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.isAdmin = _data["isAdmin"];
+        }
+    }
+
+    static fromJS(data: any): LoginResponseDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LoginResponseDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["token"] = this.token;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["isAdmin"] = this.isAdmin;
+        return data;
+    }
+}
+
+export interface ILoginResponseDto {
+    token?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    isAdmin?: boolean;
 }
 
 export class ProblemDetails implements IProblemDetails {
