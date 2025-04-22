@@ -20,16 +20,14 @@ namespace BookingSystem.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register([FromBody] Register register)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return BadRequest("Invalid model.");
+
+            var result = await _authService.RegisterUserAsync(register);
+            if (result.Succeeded)
             {
-                var result = await _authService.RegisterUserAsync(register);
-                if (result.Succeeded)
-                {
-                    return Created();
-                }
-                return BadRequest(result.Errors);
+                return StatusCode(StatusCodes.Status201Created);
             }
-            return BadRequest("Invalid model.");
+                return BadRequest(result.Errors);
         }
 
         [HttpPost("login")]
@@ -37,18 +35,13 @@ namespace BookingSystem.API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Login([FromBody] Login login)
         {
-            var result = await _authService.LoginUserAsync(login);
-            if (result.Success)
+            var response = await _authService.LoginUserAsync(login);
+
+            if (response != null)
             {
-                var reponse = new LoginResponseDto
-                {
-                    Token = result.Token!,
-                    FirstName = result.FirstName!,
-                    LastName = result.LastName!,
-                    IsAdmin = result.IsAdmin
-                };
-                return Ok(reponse);
+                return Ok(response);
             }
+
             return Unauthorized("Invalid login attempt.");
         }
 

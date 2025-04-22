@@ -55,18 +55,17 @@ namespace BookingSystem.API.Controllers
             return CreatedAtAction(nameof(GetBookingById), new { id = createdBooking.Id }, createdBooking);
         }
 
-        [HttpPut("{id}")]
+        [HttpGet("user/{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateBooking(int id, [FromBody] BookingInputDto bookingDto)
+        public async Task<ActionResult<List<BookingOutputDto>>> GetBookingsForUser(string userId)
         {
-            var updated = await _bookingService.UpdateBookingAsync(id, bookingDto);
-            if (updated == null)
+            var bookings = await _bookingService.GetBookingForUserAsync(userId);
+            if (bookings == null || !bookings.Any())
             {
-                return NotFound($"Booking with ID {id} not found.");
+                return NotFound($"No bookings found for user with ID {userId}.");
             }
-            return Ok(updated);
+            return Ok(bookings);
         }
 
         [HttpDelete("{id}")]

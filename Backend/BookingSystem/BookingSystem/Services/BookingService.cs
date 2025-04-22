@@ -21,18 +21,7 @@ namespace BookingSystem.API.Services
                 .Include(b => b.WorkoutClass)
                 .ToListAsync();
 
-            var bookingsDtos = bookings.Select(b => new BookingOutputDto
-            {
-                Id = b.Id,
-                UserId = b.UserId,
-                UserName = b.User.FirstName,
-                WorkoutClassId = b.WorkoutClassId,
-                WorkoutClassName = b.WorkoutClass.WorkoutName, 
-                StartDate = b.WorkoutClass.StartDate,
-                EndDate = b.WorkoutClass.EndDate
-            }).ToList();
-
-            return bookingsDtos;
+            return bookings.Select(MapToDto).ToList();
         }
 
         public async Task<BookingOutputDto?> GetBookingByIdAsync(int id)
@@ -42,22 +31,7 @@ namespace BookingSystem.API.Services
                 .Include(b => b.WorkoutClass)
                 .FirstOrDefaultAsync(b => b.Id == id);
 
-            if (booking == null)
-            {
-                return null;
-            }
-
-            var bookingDto = new BookingOutputDto
-            {
-                Id = booking.Id,
-                UserId = booking.UserId,
-                UserName = booking.User.FirstName,
-                WorkoutClassId = booking.WorkoutClassId,
-                WorkoutClassName = booking.WorkoutClass.WorkoutName,
-                StartDate = booking.WorkoutClass.StartDate,
-                EndDate = booking.WorkoutClass.EndDate
-            };
-            return bookingDto;
+            return booking == null ? null : MapToDto(booking);
         }
 
         public async Task<Booking?> CreateBookingAsync(BookingInputDto dto)
@@ -81,19 +55,15 @@ namespace BookingSystem.API.Services
             return booking;
         }
 
-        public async Task<Booking?> UpdateBookingAsync(int id, BookingInputDto dto)
+        public async Task<List<BookingOutputDto>> GetBookingForUserAsync(string userId)
         {
-            var booking = await _context.Bookings.FindAsync(id);
-            if (booking == null)
-            {
-                return null;
-            }
+            var bookings = await _context.Bookings
+                .Include(b => b.User)
+                .Include(b => b.WorkoutClass)
+                .Where(b => b.UserId == userId)
+                .ToListAsync();
 
-            booking.UserId = dto.UserId;
-            booking.WorkoutClassId = dto.WorkoutClassId;
-
-            await _context.SaveChangesAsync();
-            return booking;
+            return bookings.Select(MapToDto).ToList();
         }
 
         public async Task<bool> DeleteBookingAsync(int id)
@@ -106,6 +76,20 @@ namespace BookingSystem.API.Services
             _context.Bookings.Remove(booking);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        private static BookingOutputDto MapToDto(Booking booking)
+        {
+            return new BookingOutputDto
+            {
+                Id = booking.Id,
+                UserId = booking.UserId,
+                UserName = booking.User.FirstName,
+                WorkoutClassId = booking.WorkoutClassId,
+                WorkoutClassName = booking.WorkoutClass.WorkoutName,
+                StartDate = booking.WorkoutClass.StartDate,
+                EndDate = booking.WorkoutClass.EndDate
+            };
         }
     }
 }
