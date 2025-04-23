@@ -34,7 +34,7 @@ namespace BookingSystem.API.Services
             return booking == null ? null : MapToDto(booking);
         }
 
-        public async Task<Booking?> CreateBookingAsync(BookingInputDto dto)
+        public async Task<BookingOutputDto?> CreateBookingAsync(BookingInputDto dto)
         {
             bool alreadyBooked = await _context.Bookings.AnyAsync(b =>
             b.UserId == dto.UserId &&
@@ -44,15 +44,27 @@ namespace BookingSystem.API.Services
             {
                 return null;
             }
+
             var booking = new Booking
             {
                 UserId = dto.UserId,
-                WorkoutClassId = dto.WorkoutClassId
+                WorkoutClassId = dto.WorkoutClassId,
             };
 
             _context.Bookings.Add(booking);
             await _context.SaveChangesAsync();
-            return booking;
+
+            var fullBooking = await _context.Bookings
+                .Include(b => b.User)
+                .Include(b => b.WorkoutClass)
+                .FirstOrDefaultAsync(b => b.Id == booking.Id);
+
+            if (fullBooking == null)
+            {
+                return null;
+            }
+
+            return MapToDto(fullBooking);
         }
 
         public async Task<List<BookingOutputDto>> GetBookingForUserAsync(string userId)

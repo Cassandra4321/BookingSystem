@@ -45,7 +45,7 @@ namespace BookingSystem.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Booking>> CreateBooking([FromBody] BookingInputDto bookingDto)
+        public async Task<ActionResult<BookingOutputDto>> CreateBooking([FromBody] BookingInputDto bookingDto)
         {
             var createdBooking = await _bookingService.CreateBookingAsync(bookingDto);
             if (createdBooking == null)

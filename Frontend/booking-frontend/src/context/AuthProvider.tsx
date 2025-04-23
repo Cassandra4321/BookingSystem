@@ -8,15 +8,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token') ?? '';
     const name = localStorage.getItem('firstName') ?? '';
     const admin = localStorage.getItem('isAdmin') ?? 'false';
+    const user = localStorage.getItem('userId') ?? '';
 
     setIsLoggedIn(token !== '');
     setFirstName(name);
     setIsAdmin(admin === 'true');
+    setUserId(user);
     setIsLoading(false);
   }, []);
 
@@ -28,16 +31,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     try {
       const response = await client.login(loginData);
-      if (!response.token || !response.firstName || response.isAdmin === undefined) {
+      if (!response.token || !response.firstName || response.isAdmin === undefined || !response.userId) {
         throw new Error("Ogiltligt svar från servern.")
       }
 
       localStorage.setItem('token', response.token);
       localStorage.setItem('firstName', response.firstName);
       localStorage.setItem('isAdmin', response.isAdmin.toString());
+      localStorage.setItem('userId', response.userId)
 
       setIsLoggedIn(true);
       setFirstName(response.firstName);
+      setUserId(response.userId);
+
     } catch (error) {
       console.error(error);
       setMessage('Fel vid inloggning.');
@@ -49,14 +55,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem('token');
     localStorage.removeItem('firstName');
     localStorage.removeItem('isAdmin');
+    localStorage.removeItem('userId');
 
     setIsLoggedIn(false);
     setFirstName(null);
     setIsAdmin(false);
+    setUserId(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, firstName, isAdmin, login, logout, message, isLoading }}>
+    <AuthContext.Provider value={{ isLoggedIn, firstName, isAdmin, userId, login, logout, message, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
