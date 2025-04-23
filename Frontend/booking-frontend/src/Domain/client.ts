@@ -167,7 +167,7 @@ export class ApiClient {
      * @param body (optional) 
      * @return Created
      */
-    bookingPOST(body?: BookingInputDto | undefined): Promise<Booking> {
+    bookingPOST(body?: BookingInputDto | undefined): Promise<BookingOutputDto> {
         let url_ = this.baseUrl + "/api/Booking";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -187,14 +187,14 @@ export class ApiClient {
         });
     }
 
-    protected processBookingPOST(response: Response): Promise<Booking> {
+    protected processBookingPOST(response: Response): Promise<BookingOutputDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 201) {
             return response.text().then((_responseText) => {
             let result201: any = null;
             let resultData201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result201 = Booking.fromJS(resultData201);
+            result201 = BookingOutputDto.fromJS(resultData201);
             return result201;
             });
         } else if (status === 400) {
@@ -209,7 +209,7 @@ export class ApiClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Booking>(null as any);
+        return Promise.resolve<BookingOutputDto>(null as any);
     }
 
     /**
@@ -967,6 +967,7 @@ export class LoginResponseDto implements ILoginResponseDto {
     firstName?: string | undefined;
     lastName?: string | undefined;
     isAdmin?: boolean;
+    userId?: string | undefined;
 
     constructor(data?: ILoginResponseDto) {
         if (data) {
@@ -983,6 +984,7 @@ export class LoginResponseDto implements ILoginResponseDto {
             this.firstName = _data["firstName"];
             this.lastName = _data["lastName"];
             this.isAdmin = _data["isAdmin"];
+            this.userId = _data["userId"];
         }
     }
 
@@ -999,6 +1001,7 @@ export class LoginResponseDto implements ILoginResponseDto {
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
         data["isAdmin"] = this.isAdmin;
+        data["userId"] = this.userId;
         return data;
     }
 }
@@ -1008,6 +1011,7 @@ export interface ILoginResponseDto {
     firstName?: string | undefined;
     lastName?: string | undefined;
     isAdmin?: boolean;
+    userId?: string | undefined;
 }
 
 export class ProblemDetails implements IProblemDetails {

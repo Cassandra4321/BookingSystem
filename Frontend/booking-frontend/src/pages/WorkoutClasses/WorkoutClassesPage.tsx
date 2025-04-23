@@ -1,12 +1,49 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { WorkoutClass } from '../../interfaces/WorkoutClass';
+import { Booking } from '../../domain/client';
 import { Navbar } from '../../components/Navbar/Navbar';
+import { AuthContext } from '../../context/AuthContext';
 
 export function WorkoutClassesPage() {
     const [workoutClasses, setWorkoutClasses] = useState<WorkoutClass[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [bookedClasses, setBookedClasses] = useState<number[]>([]);
+    const [bookedClasses, setBookedClasses] = useState<{ workoutClassId: number, bookingId: number | undefined}[]>([]);
+
+    const auth = useContext(AuthContext);
+    const { userId }  = auth ?? {};
+
+    const isClassBooked = (workoutClassId: number) =>
+        bookedClasses.some((b) => b.workoutClassId === workoutClassId);
+    
+    const getBookingId = (workoutClassId: number) => {
+        const booking = bookedClasses.find((b) => b.workoutClassId === workoutClassId);
+        return booking?.bookingId;
+    };
+
+    useEffect(() => {
+        const fetchUserBookings = async () => {
+            if (!userId) return;
+    
+            try {
+                const response = await fetch(`https://localhost:7193/api/booking/user/${userId}`);
+                if (!response.ok) {
+                    throw new Error('Kunde inte hämta användarens bokningar.');
+                }
+    
+                const data: Booking[] = await response.json();
+                const transformed = data.map((booking: Booking) => ({
+                    workoutClassId: booking.workoutClassId,
+                    bookingId: booking.id
+                }));
+                setBookedClasses(transformed);
+            } catch (err) {
+                console.error("Fel vid hämntning av bokningar: ", err);
+            }
+        };
+    
+        fetchUserBookings();
+    }, [userId]);
 
     useEffect(() => {
         const fetchWorkoutClasses = async () => {
@@ -30,13 +67,71 @@ export function WorkoutClassesPage() {
         fetchWorkoutClasses();
     }, []);
 
-    const toggleBooking = (id: number) => {
-        setBookedClasses((prev) =>
-            prev.includes(id)
-            ? prev.filter((bookedId) => bookedId !== id)
-            : [...prev, id]
-        );
-    }
+    const toggleBooking = async (workoutClassId: number) => {
+        if (!userId) {
+            alert("Du måste vara inloggad för att boka eller avboka.");
+            return;
+        }
+    
+        const alreadyBooked = isClassBooked(workoutClassId);
+    
+        if (alreadyBooked) {
+            const bookingId = getBookingId(workoutClassId);
+            if (!bookingId) {
+                alert("Kunde inte hitta boknings-ID för att avboka.");
+                return;
+            }
+    
+            try {
+                const response = await fetch(`https://localhost:7193/api/booking/${bookingId}`, {
+                    method: 'DELETE',
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Kunde inte avboka passet.');
+                }
+    
+                setBookedClasses((prev) =>
+                    prev.filter((b) => b.workoutClassId !== workoutClassId)
+                );
+    
+                alert('Du har avbokat passet.');
+            } catch (err) {
+                console.error(err);
+                alert('Något gick fel vid avbokning.');
+            }
+        } else {
+            try {
+                const response = await fetch('https://localhost:7193/api/booking', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: userId,
+                        workoutClassId: workoutClassId,
+                    }),
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Kunde inte boka passet.');
+                }
+    
+                const data = await response.json();
+    
+                setBookedClasses((prev) => [
+                    ...prev,
+                    { workoutClassId: data.workoutClassId, bookingId: data.id },
+                ]);
+    
+                alert(`Du har bokat: ${data.workoutClassName}`);
+            } catch (err) {
+                console.error(err);
+                alert('Något gick fel vid bokning.');
+            }
+        }
+    };
+    
 
     return (
         <div>
@@ -57,10 +152,10 @@ export function WorkoutClassesPage() {
                                     <p><strong>Slut:</strong> {new Date(wc.endDate).toLocaleString()}</p>
                                     <p><strong>Max deltagare:</strong> {wc.maxParticipants}</p>
                                     <button
-                                        className={`btn ${bookedClasses.includes(wc.id) ? 'btn-danger' : 'btn-primary'}`}
+                                        className={`btn ${isClassBooked(wc.id) ? 'btn-danger' : 'btn-primary'}`}
                                         onClick={() => toggleBooking(wc.id)}
                                     >
-                                        {bookedClasses.includes(wc.id) ? 'Avboka' : 'Boka'}
+                                        {isClassBooked(wc.id) ? 'Avboka' : 'Boka'}
                                     </button>
                                 </div>
                             </div>
