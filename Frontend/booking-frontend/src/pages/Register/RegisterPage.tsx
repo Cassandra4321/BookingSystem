@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { ApiClient, Register } from '../../domain/client'
+import { Register } from '../../domain/client'
 import { Navbar } from '../../components/Navbar/Navbar';
 import { useNavigate } from 'react-router-dom';
+import { apiClient } from '../../services/Api';
 
 export function RegisterPage() {
     const [formData, setFormData] = useState<Register>(new Register());
@@ -17,10 +18,9 @@ export function RegisterPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const client = new ApiClient("https://localhost:7193");
 
         try {
-            await client.register(formData);
+            await apiClient.register(formData);
             setMessage("Registreringen lyckades! Nu kan du logga in :)");
             setTimeout(() => {
                 navigate('/');
