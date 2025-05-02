@@ -28,3 +28,7 @@ export async function fetchWorkoutClasses() {
     const res = await fetch(`https://localhost:7193/api/booking/${bookingId}`, { method: 'DELETE' });
     if (!res.ok) throw new Error('Kunde inte avboka passet.');
   }
+
+  export async function fetchRecommendation(userId: string) {
+    return await apiClient.recommendations(userId);
+}
