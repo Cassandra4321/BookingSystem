@@ -359,6 +359,53 @@ export class ApiClient {
     /**
      * @return OK
      */
+    recommendations(userId: string): Promise<WorkoutClassDto[]> {
+        let url_ = this.baseUrl + "/{userId}/recommendations";
+        if (userId === undefined || userId === null)
+            throw new Error("The parameter 'userId' must be defined.");
+        url_ = url_.replace("{userId}", encodeURIComponent("" + userId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "text/plain"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processRecommendations(_response);
+        });
+    }
+
+    protected processRecommendations(response: Response): Promise<WorkoutClassDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(WorkoutClassDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<WorkoutClassDto[]>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
     workoutClassAll(): Promise<WorkoutClassDto[]> {
         let url_ = this.baseUrl + "/api/WorkoutClass";
         url_ = url_.replace(/[?&]$/, "");
@@ -1249,7 +1296,11 @@ export interface IWorkoutClass {
 export class WorkoutClassDto implements IWorkoutClassDto {
     id?: number;
     name?: string | undefined;
+    description?: string | undefined;
+    maxParticipants?: number;
     bookingIds?: number[] | undefined;
+    startDate?: Date;
+    endDate?: Date;
 
     constructor(data?: IWorkoutClassDto) {
         if (data) {
@@ -1264,11 +1315,15 @@ export class WorkoutClassDto implements IWorkoutClassDto {
         if (_data) {
             this.id = _data["id"];
             this.name = _data["name"];
+            this.description = _data["description"];
+            this.maxParticipants = _data["maxParticipants"];
             if (Array.isArray(_data["bookingIds"])) {
                 this.bookingIds = [] as any;
                 for (let item of _data["bookingIds"])
                     this.bookingIds!.push(item);
             }
+            this.startDate = _data["startDate"] ? new Date(_data["startDate"].toString()) : <any>undefined;
+            this.endDate = _data["endDate"] ? new Date(_data["endDate"].toString()) : <any>undefined;
         }
     }
 
@@ -1283,11 +1338,15 @@ export class WorkoutClassDto implements IWorkoutClassDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["name"] = this.name;
+        data["description"] = this.description;
+        data["maxParticipants"] = this.maxParticipants;
         if (Array.isArray(this.bookingIds)) {
             data["bookingIds"] = [];
             for (let item of this.bookingIds)
                 data["bookingIds"].push(item);
         }
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
         return data;
     }
 }
@@ -1295,7 +1354,11 @@ export class WorkoutClassDto implements IWorkoutClassDto {
 export interface IWorkoutClassDto {
     id?: number;
     name?: string | undefined;
+    description?: string | undefined;
+    maxParticipants?: number;
     bookingIds?: number[] | undefined;
+    startDate?: Date;
+    endDate?: Date;
 }
 
 export class SwaggerException extends Error {
