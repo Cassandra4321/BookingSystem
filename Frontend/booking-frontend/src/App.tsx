@@ -7,8 +7,10 @@ import { AdminRoute } from './components/ProtectedRoute/AdminRoute';
 import { UserRoute } from './components/ProtectedRoute/UserRoute';
 import { AdminDashboardPage } from './pages/Admin/AdminDashboardPage';
 import { WorkoutClassesPage } from './pages/WorkoutClasses/WorkoutClassesPage';
+import { UserPage } from './pages/User/UserPage';
 
 function App() {
+
   return (
     <AuthProvider>
         <Routes>
@@ -23,6 +25,15 @@ function App() {
               </UserRoute>
             } 
           />
+
+        <Route
+          path="/user"
+          element={
+            <UserRoute>
+              <UserPage/>
+            </UserRoute>
+          }
+        />
 
           <Route
           path="/admin-dashboard"
