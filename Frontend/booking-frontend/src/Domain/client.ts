@@ -359,7 +359,7 @@ export class ApiClient {
     /**
      * @return OK
      */
-    workoutClassAll(): Promise<WorkoutClass[]> {
+    workoutClassAll(): Promise<WorkoutClassDto[]> {
         let url_ = this.baseUrl + "/api/WorkoutClass";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -375,7 +375,7 @@ export class ApiClient {
         });
     }
 
-    protected processWorkoutClassAll(response: Response): Promise<WorkoutClass[]> {
+    protected processWorkoutClassAll(response: Response): Promise<WorkoutClassDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -385,7 +385,7 @@ export class ApiClient {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(WorkoutClass.fromJS(item));
+                    result200!.push(WorkoutClassDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -404,7 +404,7 @@ export class ApiClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<WorkoutClass[]>(null as any);
+        return Promise.resolve<WorkoutClassDto[]>(null as any);
     }
 
     /**
@@ -459,7 +459,7 @@ export class ApiClient {
     /**
      * @return OK
      */
-    workoutClassGET(id: number): Promise<WorkoutClass> {
+    workoutClassGET(id: number): Promise<WorkoutClassDto> {
         let url_ = this.baseUrl + "/api/WorkoutClass/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -478,14 +478,14 @@ export class ApiClient {
         });
     }
 
-    protected processWorkoutClassGET(response: Response): Promise<WorkoutClass> {
+    protected processWorkoutClassGET(response: Response): Promise<WorkoutClassDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = WorkoutClass.fromJS(resultData200);
+            result200 = WorkoutClassDto.fromJS(resultData200);
             return result200;
             });
         } else if (status === 404) {
@@ -500,7 +500,7 @@ export class ApiClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<WorkoutClass>(null as any);
+        return Promise.resolve<WorkoutClassDto>(null as any);
     }
 
     /**
@@ -1244,6 +1244,58 @@ export interface IWorkoutClass {
     endDate: Date;
     maxParticipants: number;
     bookings?: Booking[] | undefined;
+}
+
+export class WorkoutClassDto implements IWorkoutClassDto {
+    id?: number;
+    name?: string | undefined;
+    bookingIds?: number[] | undefined;
+
+    constructor(data?: IWorkoutClassDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            if (Array.isArray(_data["bookingIds"])) {
+                this.bookingIds = [] as any;
+                for (let item of _data["bookingIds"])
+                    this.bookingIds!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): WorkoutClassDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WorkoutClassDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        if (Array.isArray(this.bookingIds)) {
+            data["bookingIds"] = [];
+            for (let item of this.bookingIds)
+                data["bookingIds"].push(item);
+        }
+        return data;
+    }
+}
+
+export interface IWorkoutClassDto {
+    id?: number;
+    name?: string | undefined;
+    bookingIds?: number[] | undefined;
 }
 
 export class SwaggerException extends Error {

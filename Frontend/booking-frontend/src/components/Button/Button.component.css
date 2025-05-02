@@ -33,3 +33,11 @@
   .btn-enhanced[type="reset"]:hover {
     background: linear-gradient(to right, #9bb2ae, #b5c8c2);
   }
+
+  .btn-enhanced:disabled {
+    background: #e0e0e0;
+    color: #a0a0a0;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
