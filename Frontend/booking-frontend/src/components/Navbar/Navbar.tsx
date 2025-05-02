@@ -29,6 +29,7 @@ export function Navbar() {
             <div className="container-fluid d-flex justify-content-between align-items-center">
                 <Link to="/" className="btn btn-zen fw-bold fs-4">ZenGym</Link>
                 <Link to="/classes" className="nav-link">Träningspass</Link>
+                <Link to="/user" className="nav-link">Mina bokningar</Link>
 
                 <div className="d-flex align-items-center">
                     {!isLoggedIn ? (
@@ -50,12 +51,12 @@ export function Navbar() {
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
-                                <AppButton type="submit">Logga in</AppButton>
+                                <AppButton type="submit" disabled={false}>Logga in</AppButton>
                             </form>
                             <AppLinkButton to="/register">Registrera</AppLinkButton>
                         </>
                     ) : (
-                        <AppButton type="reset" onClick={handleLogout}>
+                        <AppButton type="reset" onClick={handleLogout} disabled={false}>
                             Logga ut
                         </AppButton>
                     )}
