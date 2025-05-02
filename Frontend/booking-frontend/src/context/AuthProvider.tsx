@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { ApiClient, Login } from '../domain/client';
+import { Login } from '../domain/client';
 import { AuthContext } from './AuthContext';
+import { apiClient } from '../services/Api';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -24,13 +25,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const client = new ApiClient('https://localhost:7193');
     const loginData = new Login();
     loginData.email = email;
     loginData.password = password;
 
     try {
-      const response = await client.login(loginData);
+      const response = await apiClient.login(loginData);
       if (!response.token || !response.firstName || response.isAdmin === undefined || !response.userId) {
         throw new Error("Ogiltligt svar från servern.")
       }
@@ -43,6 +43,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setIsLoggedIn(true);
       setFirstName(response.firstName);
       setUserId(response.userId);
+      setIsAdmin(response.isAdmin);
 
     } catch (error) {
       console.error(error);
