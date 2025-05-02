@@ -3,10 +3,8 @@ import { WorkoutClass } from '../../interfaces/WorkoutClass';
 import { Booking } from '../../domain/client';
 import { Navbar } from '../../components/Navbar/Navbar';
 import { AuthContext } from '../../context/AuthContext';
-
 import { AppButton } from '../../components/Button/Button.component';
-
-import { fetchUserBookings, fetchWorkoutClasses, bookWorkout, cancelBooking } from '../../services/Api';
+import { fetchUserBookings, bookWorkout, cancelBooking } from '../../services/Api';
 
 
 export function WorkoutClassesPage() {
@@ -45,19 +43,17 @@ export function WorkoutClassesPage() {
     }, [userId]);
 
     useEffect(() => {
-        const loadWorkoutClasses = async () => {
+        const fetchWorkoutClasses = async () => {
             try {
                 const response = await fetch('https://localhost:7193/api/WorkoutClass');
                 if (!response.ok) {
                     throw new Error('Kunde inte hämta träningspassen.');
                 }
                 const data = await response.json();
-
+    
                 const filteredData = data.filter((wc: WorkoutClass) => new Date(wc.startDate) > new Date());
-
+    
                 setWorkoutClasses(filteredData);
-                setWorkoutClasses(data);
-
             } catch (err: unknown) {
                 if (err instanceof Error) {
                     setError(err.message);
@@ -68,9 +64,9 @@ export function WorkoutClassesPage() {
                 setLoading(false);
             }
         };
-        loadWorkoutClasses();
+        fetchWorkoutClasses();
     }, []);
-
+    
     const toggleBooking = async (workoutClassId: number) => {
         if (!userId) {
             alert("Du måste vara inloggad för att boka eller avboka.");
