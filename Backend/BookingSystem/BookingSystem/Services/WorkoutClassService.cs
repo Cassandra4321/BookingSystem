@@ -2,6 +2,7 @@
 using BookingSystem.API.Models;
 using Microsoft.EntityFrameworkCore;
 using BookingSystem.API.Dtos;
+using BookingSystem.API.Mappers;
 
 namespace BookingSystem.API.Services
 {
@@ -14,16 +15,21 @@ namespace BookingSystem.API.Services
             _context = context;
         }
 
-        public async Task<List<WorkoutClass>> GetAllWorkoutClassesAsync()
+        public async Task<List<WorkoutClassDto>> GetAllWorkoutClassesAsync()
         {
-            return await _context.WorkoutClasses.ToListAsync();
+            var workoutClasses = await _context.WorkoutClasses
+                .Include(w => w.Bookings)
+                .ToListAsync();
+
+            return workoutClasses.Select(WorkoutClassMapper.ToDto).ToList();
         }
 
-        public async Task<WorkoutClass?> GetWorkoutClassByIdAsync(int id)
+        public async Task<WorkoutClassDto?> GetWorkoutClassByIdAsync(int id)
         {
-            return await _context.WorkoutClasses
+            var workoutClass = await _context.WorkoutClasses
                 .Include(w => w.Bookings)
                 .FirstOrDefaultAsync(w => w.Id == id);
+            return workoutClass == null ? null : WorkoutClassMapper.ToDto(workoutClass);
         }
 
         public async Task<WorkoutClass> CreateWorkoutClassAsync(CreateWorkoutClassDto dto)

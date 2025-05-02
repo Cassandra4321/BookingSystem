@@ -5,4 +5,5 @@ export interface WorkoutClass {
     startDate: string;
     endDate: string;
     maxParticipants: number;
+    bookingIds: number[];
 }

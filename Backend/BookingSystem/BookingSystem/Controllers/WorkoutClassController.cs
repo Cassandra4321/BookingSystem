@@ -19,7 +19,7 @@ namespace BookingSystem.API.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<WorkoutClass>>> GetAllWorkoutClasses()
+        public async Task<ActionResult<IEnumerable<WorkoutClassDto>>> GetAllWorkoutClasses()
         {
             var workoutClasses = await _workoutClassService.GetAllWorkoutClassesAsync();
             if (workoutClasses == null || !workoutClasses.Any())
@@ -32,7 +32,7 @@ namespace BookingSystem.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<WorkoutClass>> GetWorkoutClassById(int id)
+        public async Task<ActionResult<WorkoutClassDto>> GetWorkoutClassById(int id)
         {
             var workoutClass = await _workoutClassService.GetWorkoutClassByIdAsync(id);
             if (workoutClass == null)
