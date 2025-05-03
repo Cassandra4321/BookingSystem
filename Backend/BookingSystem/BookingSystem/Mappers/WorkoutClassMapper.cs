@@ -10,7 +10,7 @@ namespace BookingSystem.API.Mappers
             return new WorkoutClassDto
             {
                 Id = workoutClass.Id,
-                Name = workoutClass.WorkoutName,
+                WorkoutName = workoutClass.WorkoutName,
                 Description = workoutClass.Description,
                 MaxParticipants = workoutClass.MaxParticipants,
                 BookingIds = workoutClass.Bookings?.Select(b => b.Id).ToList() ?? new List<int>(),

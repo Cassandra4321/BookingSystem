@@ -1295,7 +1295,7 @@ export interface IWorkoutClass {
 
 export class WorkoutClassDto implements IWorkoutClassDto {
     id?: number;
-    name?: string | undefined;
+    workoutName?: string | undefined;
     description?: string | undefined;
     maxParticipants?: number;
     bookingIds?: number[] | undefined;
@@ -1314,7 +1314,7 @@ export class WorkoutClassDto implements IWorkoutClassDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.name = _data["name"];
+            this.workoutName = _data["workoutName"];
             this.description = _data["description"];
             this.maxParticipants = _data["maxParticipants"];
             if (Array.isArray(_data["bookingIds"])) {
@@ -1337,7 +1337,7 @@ export class WorkoutClassDto implements IWorkoutClassDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["name"] = this.name;
+        data["workoutName"] = this.workoutName;
         data["description"] = this.description;
         data["maxParticipants"] = this.maxParticipants;
         if (Array.isArray(this.bookingIds)) {
@@ -1353,7 +1353,7 @@ export class WorkoutClassDto implements IWorkoutClassDto {
 
 export interface IWorkoutClassDto {
     id?: number;
-    name?: string | undefined;
+    workoutName?: string | undefined;
     description?: string | undefined;
     maxParticipants?: number;
     bookingIds?: number[] | undefined;
