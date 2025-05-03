@@ -2,21 +2,26 @@ import './App.css'
 import { Route, Routes} from 'react-router-dom';
 import { RegisterPage } from './pages/Register/RegisterPage'
 import { HomePage } from './pages/Home/HomePage'
-import { AuthProvider } from './context/AuthProvider';
 import { AdminRoute } from './components/ProtectedRoute/AdminRoute';
 import { UserRoute } from './components/ProtectedRoute/UserRoute';
 import { AdminDashboardPage } from './pages/Admin/AdminDashboardPage';
 import { WorkoutClassesPage } from './pages/WorkoutClasses/WorkoutClassesPage';
 import { UserPage } from './pages/User/UserPage';
+import { useAuth } from './hooks/useAuth';
 
 function App() {
 
-  return (
-    <AuthProvider>
-        <Routes>
+  const { isLoading } = useAuth();
 
+  if(isLoading) {
+    return <div>Loading...</div>
+  }
+
+  return (
+        <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterPage />} />
+
           <Route 
             path="/classes" 
             element={
@@ -45,7 +50,6 @@ function App() {
         />
 
         </Routes>
-    </AuthProvider>
   )
 }
 

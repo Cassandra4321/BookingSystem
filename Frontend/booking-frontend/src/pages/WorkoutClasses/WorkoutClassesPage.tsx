@@ -150,6 +150,7 @@ export function WorkoutClassesPage() {
                                     <AppButton
                                         onClick={() => toggleBooking(wc.id)}
                                         disabled={isFull && !isBooked}
+                                        variant={isBooked ? "cancel" : "default"}
                                     >
                                         {isBooked ? "Avboka" : isFull ? "Fullbokat" : "Boka"}
                                     </AppButton>

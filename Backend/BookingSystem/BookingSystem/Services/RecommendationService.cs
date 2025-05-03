@@ -58,7 +58,7 @@ namespace BookingSystem.API.Services
                 new WorkoutClassDto
                 {
                     Id = recommendedClass.Id,
-                    Name = recommendedClass.WorkoutName,
+                    WorkoutName = recommendedClass.WorkoutName,
                     Description = recommendedClass.Description,
                     StartDate = recommendedClass.StartDate,
                     EndDate = recommendedClass.EndDate
