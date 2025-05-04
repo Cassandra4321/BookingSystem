@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Register } from '../../domain/client'
-import { Navbar } from '../../components/Navbar/Navbar';
+import { AppNavbar } from '../../components/Navbar/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { apiClient } from '../../services/Api';
+import { AppButton } from '../../components/Button/Button.component';
 
 export function RegisterPage() {
     const [formData, setFormData] = useState<Register>(new Register());
@@ -33,7 +34,7 @@ export function RegisterPage() {
 
     return (
         <div>
-        <Navbar />
+        <AppNavbar />
         <div className="container mt-5">
             <h2>Registrera dig</h2>
             <form onSubmit={handleSubmit} className="mt-4">
@@ -81,7 +82,7 @@ export function RegisterPage() {
                         required
                     />
                 </div>
-                <button type="submit" className="btn btn-primary">Registrera</button>
+                <AppButton type="submit">Registrera</AppButton>
             </form>
             {message && <div className="mt-3 alert alert-info">{message}</div>}
         </div>

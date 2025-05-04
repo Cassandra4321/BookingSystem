@@ -1,9 +1,100 @@
-.navbar .btn {
-    margin-left: 0.5rem;
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+.navbar-light .navbar-nav .nav-link,
+.navbar-light .navbar-nav .dropdown-toggle {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(12px, 3vw, 16px);
+  font-weight: 400;
+  line-height: 1.4375;
+  color: #297a69;
+  padding: 19px 0;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: transparent;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
-.navbar .form-control {
-    max-width: 150px;
+
+.navbar-light .navbar-nav .dropdown-toggle::before {
+  content: "▾";
+  font-size: 1.3rem;
+  position: absolute;
+  right: -7px;
+  transition: none;
 }
-.navbar {
-    background-color: #5C5470 !important;
+
+.navbar-light .navbar-nav .nav-link::after,
+.navbar-light .navbar-nav .dropdown-toggle::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #6be0b9cb;
+  transition: width 0.3s ease-in-out;
+  opacity: 0;
 }
+
+
+.navbar-light .navbar-nav .nav-link:hover::after,
+.navbar-light .navbar-nav .dropdown-toggle:hover::after {
+  width: 100%;
+  opacity: 1;
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .dropdown-toggle:hover {
+  color: #326650cb;
+}
+
+.dropdown-menu {
+  background-color: #f3f4f5;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.navbar-light .navbar-nav .nav-link.active {
+  color: #47c988;
+  text-decoration: underline;
+}
+
+.navbar-light .dropdown-menu .dropdown-item:hover {
+    font-size: 1.1rem;
+    transition: font-size 0.3s ease;
+  }
+
+.navbar-light .navbar-nav .nav-item {
+    margin-right: 20px;
+  }
+
+.navbar-light .d-flex .form-control {
+    width: auto;
+    height: 35px;
+    max-width: 200px;
+  }
+
+  .navbar-light .dropdown-menu .dropdown-item:active {
+    background-color: transparent;
+    color: #297a69;
+  }
+
+
+  .zengym-title {
+    transition: color 0.3s ease, transform 0.3s ease;
+    color: #56998b !important;
+  }
+  
+  .zengym-title:hover {
+    color: #044b36 !important;
+    transform: scale(1.1);
+    cursor: pointer;
+  }

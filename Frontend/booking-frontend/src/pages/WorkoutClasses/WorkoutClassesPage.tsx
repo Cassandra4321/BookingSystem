@@ -1,10 +1,12 @@
 import { useEffect, useState, useContext } from 'react';
 import { WorkoutClass } from '../../interfaces/WorkoutClass';
 import { Booking } from '../../domain/client';
-import { Navbar } from '../../components/Navbar/Navbar';
+import { AppNavbar } from '../../components/Navbar/Navbar';
 import { AuthContext } from '../../context/AuthContext';
 import { AppButton } from '../../components/Button/Button.component';
 import { fetchUserBookings, bookWorkout, cancelBooking } from '../../services/Api';
+import { AppLoading } from '../../components/Loading/Loading.component';
+import { FormatDate } from '../../utils/Date-utils';
 
 
 export function WorkoutClassesPage() {
@@ -127,10 +129,10 @@ export function WorkoutClassesPage() {
 
     return (
         <div>
-            <Navbar />
+            <AppNavbar />
             <div className="container mt-5">
                 <h2 className="mb-4 text-center">Träningspass</h2>
-                {loading && <p>Laddar träningspass...</p>}
+                {loading && <AppLoading/>}
                 {error && <p className="text-danger">{error}</p>}
 
                 <div className="row">
@@ -144,8 +146,7 @@ export function WorkoutClassesPage() {
                                 <div className="card-body">
                                     <h5 className="card-title">{wc.workoutName}</h5>
                                     <p className="card-text">{wc.description}</p>
-                                    <p><strong>Start:</strong> {new Date(wc.startDate).toLocaleString()}</p>
-                                    <p><strong>Slut:</strong> {new Date(wc.endDate).toLocaleString()}</p>
+                                    <p><strong>Tid</strong> {FormatDate(wc.startDate, wc.endDate)}</p>
                                     <p><strong>Bokade platser:</strong> {wc.bookingIds.length} / {wc.maxParticipants}</p>
                                     <AppButton
                                         onClick={() => toggleBooking(wc.id)}
