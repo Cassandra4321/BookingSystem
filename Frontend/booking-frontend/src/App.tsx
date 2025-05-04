@@ -8,13 +8,14 @@ import { AdminDashboardPage } from './pages/Admin/AdminDashboardPage';
 import { WorkoutClassesPage } from './pages/WorkoutClasses/WorkoutClassesPage';
 import { UserPage } from './pages/User/UserPage';
 import { useAuth } from './hooks/useAuth';
+import { AppLoading } from './components/Loading/Loading.component';
 
 function App() {
 
   const { isLoading } = useAuth();
 
   if(isLoading) {
-    return <div>Loading...</div>
+    return <AppLoading/>;
   }
 
   return (

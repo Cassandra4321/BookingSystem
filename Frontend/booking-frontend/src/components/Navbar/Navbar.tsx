@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { AppButton } from '../Button/Button.component';
 import { AppLinkButton } from '../Link/Link.component';
 import './Navbar.css'
+import { Navbar, Nav, NavDropdown, Container, Form } from 'react-bootstrap';
 
-export function Navbar() {
+export function AppNavbar() {
     const { isLoggedIn, login, logout, message } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
     const navigate = useNavigate();
 
     const handleLogin = async (e: React.FormEvent) => {
@@ -25,48 +25,66 @@ export function Navbar() {
     };
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light px-4">
-            <div className="container-fluid d-flex justify-content-between align-items-center">
-                <Link to="/" className="btn btn-zen fw-bold fs-4">ZenGym</Link>
-                <Link to="/classes" className="nav-link">Träningspass</Link>
-                <Link to="/user" className="nav-link">Mina bokningar</Link>
+        <>
+       <Navbar bg="light" expand="lg" className="px-4 navbar-light">
+            <Container fluid>
+                <Navbar.Brand as={Link} to="/" className="fw-bold fs-4 zengym-title">ZenGym</Navbar.Brand>
+                <Navbar.Toggle aria-controls="main-navbar" />
+                <Navbar.Collapse id="main-navbar" className="w-100 d-flex justify-content-between align-items-center">
+                    <Nav className="mx-auto">
+                        <NavDropdown title="Träning" id="training-dropdown" className="text--size-small">
+                            <NavDropdown.Item as={Link} to="/classes">Boka pass</NavDropdown.Item>
+                        </NavDropdown>
 
-                <div className="d-flex align-items-center">
-                    {!isLoggedIn ? (
-                        <>
-                            <form className="d-flex me-3" onSubmit={handleLogin}>
-                                <input
-                                    type="email"
-                                    className="form-control form-control-sm me-2"
-                                    placeholder="E-post"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                />
-                                <input
-                                    type="password"
-                                    className="form-control form-control-sm me-2"
-                                    placeholder="Lösenord"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required
-                                />
-                                <AppButton type="submit" disabled={false}>Logga in</AppButton>
-                            </form>
-                            <AppLinkButton to="/register">Registrera</AppLinkButton>
-                        </>
-                    ) : (
-                        <AppButton type="reset" onClick={handleLogout} disabled={false}>
-                            Logga ut
-                        </AppButton>
-                    )}
-                </div>
-            </div>
+                        <NavDropdown title="Mina sidor" id="user-dropdown" className="text--size-small">
+                            <NavDropdown.Item as={Link} to="/user">Mina bokningar</NavDropdown.Item>
+                        </NavDropdown>
+                    </Nav>
+
+
+                        <div className="d-flex align-items-center">
+                            {!isLoggedIn ? (
+                                <>
+                                    <Form className="d-flex me-3" onSubmit={handleLogin}>
+                                        <Form.Control
+                                            type="email"
+                                            placeholder="E-post"
+                                            size="sm"
+                                            className="me-2"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
+                                        />
+                                        <Form.Control
+                                            type="password"
+                                            placeholder="Lösenord"
+                                            size="sm"
+                                            className="me-2"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            required
+                                        />
+                                        <AppButton type="submit">
+                                            Logga in
+                                        </AppButton>
+                                    </Form>
+                                    <AppLinkButton to="/register">Registrera</AppLinkButton>
+                                </>
+                            ) : (
+                                <AppButton type="reset" onClick={handleLogout} disabled={false}>
+                                    Logga ut
+                                </AppButton>
+                            )}
+                        </div>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+
             {message && (
                 <div className="container mt-2">
                     <div className="alert alert-info">{message}</div>
                 </div>
             )}
-        </nav>
+        </>
     );
 }

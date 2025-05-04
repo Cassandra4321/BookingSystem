@@ -1,4 +1,4 @@
-import { Navbar } from '../../components/Navbar/Navbar';
+import { AppNavbar } from '../../components/Navbar/Navbar';
 import { useAuth } from '../../hooks/useAuth'; 
 
 export function HomePage() {
@@ -6,7 +6,7 @@ export function HomePage() {
 
     return (
         <div>
-            <Navbar />
+            <AppNavbar />
             <div className="container text-center mt-5">
                 <h1>Välkommen till ZenGym!</h1>
                 <p className="lead">Logga in och boka upp dig på ett gympass!</p>

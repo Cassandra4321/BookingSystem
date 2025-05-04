@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { BookingOutputDto, WorkoutClassDto } from "../../domain/client";
 import { fetchUserBookings, fetchRecommendation, bookWorkout, cancelBooking } from "../../services/Api";
 import { useAuth } from "../../hooks/useAuth";
-import { Navbar } from "../../components/Navbar/Navbar";
+import { AppNavbar } from "../../components/Navbar/Navbar";
 import { AppButton } from "../../components/Button/Button.component";
+import { AppLoading } from "../../components/Loading/Loading.component";
+import { FormatDate } from "../../utils/Date-utils";
 
 export function UserPage() {
     const { userId } = useAuth();
@@ -79,16 +81,16 @@ export function UserPage() {
 
     return (
         <div>
-        <Navbar/>
+        <AppNavbar/>
         <div className="container mt-5">
             {recLoading ? (
-                <p>Laddar rekommendation...</p>
+                <AppLoading/>
                 ) : recommendation ? (
                     <div className="alert alert-info">
                         <h4>Rekommenderat pass:</h4>
                         <p><strong>{recommendation.workoutName}</strong></p>
                         <p>{recommendation.description}</p>
-                        <p>{formatDateRange(recommendation.startDate, recommendation.endDate)}</p>
+                        <p>{FormatDate(recommendation.startDate, recommendation.endDate)}</p>
                         <AppButton
                             onClick={() => toggleBooking(recommendation.id!)}
                             variant={isRecommendedBooked ? "cancel" : "default"}
@@ -104,7 +106,7 @@ export function UserPage() {
 
             <h2 className="mb-4">Mina bokningar</h2>
             {loading ? (
-                <p>Laddar bokningar...</p>
+                <AppLoading/>
             ) : (
                 <>
                         <section className="mb-5">
@@ -117,7 +119,7 @@ export function UserPage() {
                                         <li key={b.id} className="list-group-item d-flex justify-content-between align-items-center">
                                             <div>
                                                 <strong>{b.workoutClassName}</strong><br />
-                                                {formatDateRange(b.startDate, b.endDate)}
+                                                {FormatDate(b.startDate, b.endDate)}
                                             </div>
                                             <AppButton
                                                 onClick={() => toggleBooking(b.workoutClassId!)}
@@ -140,7 +142,7 @@ export function UserPage() {
                                 {past.map(b => (
                                     <li key={b.id} className="list-group-item">
                                         <strong>{b.workoutClassName}</strong><br />
-                                        {formatDateRange(b.startDate, b.endDate)}
+                                        {FormatDate(b.startDate, b.endDate)}
                                     </li>
                                 ))}
                             </ul>
@@ -151,10 +153,4 @@ export function UserPage() {
         </div>
         </div>
     );
-}
-function formatDateRange(start?: Date, end?: Date): string {
-    if (!start || !end) return '';
-    const startDate = new Date(start);
-    const endDate = new Date(end);
-    return `${startDate.toLocaleString()} – ${endDate.toLocaleTimeString()}`;
 }
