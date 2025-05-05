@@ -105,18 +105,18 @@
   }
   
   .btn-cancel:disabled {
-    background: #e0e0e0;  /* Grå bakgrund när knappen är inaktiverad */
-    color: #a0a0a0;  /* Grå text när knappen är inaktiverad */
+    background: #e0e0e0;
+    color: #a0a0a0;
     cursor: not-allowed;
     box-shadow: none;
     transform: none;
   }
   
   .btn-cancel.grå {
-    background: linear-gradient(to left, #d3d3d3, #c1c1c1); /* Grå bakgrund */
-    color: #4e4e4e; /* Mörkare grå text */
+    background: linear-gradient(to left, #d3d3d3, #c1c1c1);
+    color: #4e4e4e;
   }
   
   .btn-cancel.grå:hover {
-    background: linear-gradient(to left, #b3b3b3, #a1a1a1); /* Mörkare grå vid hover */
+    background: linear-gradient(to left, #b3b3b3, #a1a1a1);
   }

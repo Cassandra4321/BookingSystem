@@ -6,7 +6,7 @@ interface AppButtonProps {
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
   variant?: "default" | "cancel";
-  className?: string; // Behåll className här
+  className?: string;
 }
 
 export function AppButton({ onClick, children, type = "button", disabled = false, variant = "default", className = "" }: AppButtonProps) {
