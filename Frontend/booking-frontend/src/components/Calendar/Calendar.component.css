@@ -1,0 +1,26 @@
+.rbc-calendar {
+    position: relative;
+    z-index: 10 !important;
+    outline: 3px solid #02684957;
+  }
+
+  .rbc-today {
+    border: 2px solid #007bff42;
+    background-color: rgba(0, 123, 255, 0.055);
+    border-radius: 5%;
+  }
+
+  .calendar-event {
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-width: 85%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .calendar-event.booked {
+    background-color: #26863cd5;
+    color: white;
+  }
