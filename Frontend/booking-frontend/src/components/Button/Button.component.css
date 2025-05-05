@@ -76,3 +76,47 @@
     box-shadow: none;
     transform: none;
   }
+
+  .btn-cancel {
+    background: linear-gradient(to left, #f5c6cb, #f1dcdc);
+    color: #6b1f1f;
+    border: none;
+    padding: 0.6rem 1.6rem;
+    border-radius: 1.5rem;
+    font-size: 1.05rem;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    outline: none;
+  }
+  
+  .btn-cancel:hover {
+    background: linear-gradient(to left, #f2b1b7, #ebcccc);
+    color: #5a1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+  }
+  
+  .btn-cancel:active {
+    transform: scale(0.98);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  }
+  
+  .btn-cancel:disabled {
+    background: #e0e0e0;
+    color: #a0a0a0;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+  
+  .btn-cancel.grå {
+    background: linear-gradient(to left, #d3d3d3, #c1c1c1);
+    color: #4e4e4e;
+  }
+  
+  .btn-cancel.grå:hover {
+    background: linear-gradient(to left, #b3b3b3, #a1a1a1);
+  }

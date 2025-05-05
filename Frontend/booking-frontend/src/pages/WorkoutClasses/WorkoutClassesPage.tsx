@@ -5,18 +5,20 @@ import { AppNavbar } from '../../components/Navbar/Navbar';
 import { AuthContext } from '../../context/AuthContext';
 import { AppButton } from '../../components/Button/Button.component';
 import { fetchUserBookings, bookWorkout, cancelBooking } from '../../services/Api';
-import { AppLoading } from '../../components/Loading/Loading.component';
 import { FormatDate } from '../../utils/Date-utils';
+import { AppCalendar } from '../../components/Calendar/Calendar.component';
+import { Modal } from '../../components/Modals/Modal';
 
 
 export function WorkoutClassesPage() {
     const [workoutClasses, setWorkoutClasses] = useState<WorkoutClass[]>([]);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [bookedClasses, setBookedClasses] = useState<{ workoutClassId: number, bookingId: number | undefined}[]>([]);
+    const [selectedClass, setSelectedClass] = useState<WorkoutClass | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const auth = useContext(AuthContext);
-    const { userId }  = auth ?? {};
+    const { userId, isLoading }  = auth ?? {};
 
     const isClassBooked = (workoutClassId: number) =>
         bookedClasses.some((b) => b.workoutClassId === workoutClassId);
@@ -28,7 +30,7 @@ export function WorkoutClassesPage() {
 
     useEffect(() => {
         const loadUserBookings = async () => {
-            if (!userId) return;
+            if (!userId || isLoading) return;
     
             try {
                 const data: Booking[] = await fetchUserBookings(userId);
@@ -42,7 +44,7 @@ export function WorkoutClassesPage() {
             }
         };
         loadUserBookings();
-    }, [userId]);
+    }, [userId, isLoading]);
 
     useEffect(() => {
         const fetchWorkoutClasses = async () => {
@@ -62,14 +64,13 @@ export function WorkoutClassesPage() {
                 } else {
                     setError('Ett okänt fel inträffade.');
                 }
-            } finally {
-                setLoading(false);
             }
         };
         fetchWorkoutClasses();
     }, []);
     
     const toggleBooking = async (workoutClassId: number) => {
+        console.log("klickat på knapp för id: ", workoutClassId);
         if (!userId) {
             alert("Du måste vara inloggad för att boka eller avboka.");
             return;
@@ -126,15 +127,36 @@ export function WorkoutClassesPage() {
         }
     };
     
+    const handleCalendarClick = (workoutClass: WorkoutClass) => {
+        setSelectedClass(workoutClass);
+        setIsModalOpen(true);
+    }
 
     return (
         <div>
             <AppNavbar />
             <div className="container mt-5">
                 <h2 className="mb-4 text-center">Träningspass</h2>
-                {loading && <AppLoading/>}
                 {error && <p className="text-danger">{error}</p>}
-
+                <AppCalendar 
+                    workoutClasses={workoutClasses}
+                    onClassClick={handleCalendarClick}
+                    bookedClasses={bookedClasses}
+                />
+                {selectedClass && (
+                    <Modal
+                        isOpen={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                        onBook={() => {
+                            toggleBooking(selectedClass.id);
+                            setIsModalOpen(false);
+                        }}
+                        title={selectedClass.workoutName}
+                        description={selectedClass.description}
+                        time={`Tid ${FormatDate(selectedClass.startDate, selectedClass.endDate)}`}
+                        actionLabel={isClassBooked(selectedClass.id) ? "Avboka" : "Boka"}
+                    />
+                )}
                 <div className="row">
                     {workoutClasses.map((wc) => {
                         const isBooked = isClassBooked(wc.id);
