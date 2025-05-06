@@ -2,6 +2,7 @@
 using BookingSystem.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using BookingSystem.API.Dtos;
+using BookingSystem.API.Mappers;
 
 namespace BookingSystem.API.Controllers
 {
@@ -45,10 +46,12 @@ namespace BookingSystem.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<WorkoutClass>> CreateWorkoutClass([FromBody] CreateWorkoutClassDto dto)
+        public async Task<ActionResult<WorkoutClassDto>> CreateWorkoutClass([FromBody] CreateWorkoutClassDto dto)
         {
             var createdWorkoutClass = await _workoutClassService.CreateWorkoutClassAsync(dto);
-            return CreatedAtAction(nameof(GetWorkoutClassById), new { id = createdWorkoutClass.Id }, createdWorkoutClass);
+            var createdWorkoutClassDto = WorkoutClassMapper.ToDto(createdWorkoutClass);
+
+            return CreatedAtAction(nameof(GetWorkoutClassById), new { id = createdWorkoutClass.Id }, createdWorkoutClassDto);
         }
 
         [HttpPut("{id}")]
