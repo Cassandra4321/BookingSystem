@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingSystem.API", "BookingSystem\BookingSystem.API.csproj", "{63AC4836-C803-4936-8722-944BFD345400}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingSystem.Tests", "BookingSystem.Tests\BookingSystem.Tests.csproj", "{0F526B1F-AE47-406D-8251-930724EBC043}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingSystem.API", "BookingSystem.API\BookingSystem.API.csproj", "{EB71E595-0518-4E78-8FC9-9FA6D606C60E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{63AC4836-C803-4936-8722-944BFD345400}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63AC4836-C803-4936-8722-944BFD345400}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63AC4836-C803-4936-8722-944BFD345400}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63AC4836-C803-4936-8722-944BFD345400}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F526B1F-AE47-406D-8251-930724EBC043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F526B1F-AE47-406D-8251-930724EBC043}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F526B1F-AE47-406D-8251-930724EBC043}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F526B1F-AE47-406D-8251-930724EBC043}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB71E595-0518-4E78-8FC9-9FA6D606C60E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB71E595-0518-4E78-8FC9-9FA6D606C60E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB71E595-0518-4E78-8FC9-9FA6D606C60E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB71E595-0518-4E78-8FC9-9FA6D606C60E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
