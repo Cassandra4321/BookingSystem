@@ -458,7 +458,7 @@ export class ApiClient {
      * @param body (optional) 
      * @return Created
      */
-    workoutClassPOST(body?: CreateWorkoutClassDto | undefined): Promise<WorkoutClass> {
+    workoutClassPOST(body?: CreateWorkoutClassDto | undefined): Promise<WorkoutClassDto> {
         let url_ = this.baseUrl + "/api/WorkoutClass";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -478,14 +478,14 @@ export class ApiClient {
         });
     }
 
-    protected processWorkoutClassPOST(response: Response): Promise<WorkoutClass> {
+    protected processWorkoutClassPOST(response: Response): Promise<WorkoutClassDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 201) {
             return response.text().then((_responseText) => {
             let result201: any = null;
             let resultData201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result201 = WorkoutClass.fromJS(resultData201);
+            result201 = WorkoutClassDto.fromJS(resultData201);
             return result201;
             });
         } else if (status === 400) {
@@ -500,7 +500,7 @@ export class ApiClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<WorkoutClass>(null as any);
+        return Promise.resolve<WorkoutClassDto>(null as any);
     }
 
     /**
@@ -649,174 +649,6 @@ export class ApiClient {
     }
 }
 
-export class AppUser implements IAppUser {
-    id?: string | undefined;
-    userName?: string | undefined;
-    normalizedUserName?: string | undefined;
-    email?: string | undefined;
-    normalizedEmail?: string | undefined;
-    emailConfirmed?: boolean;
-    passwordHash?: string | undefined;
-    securityStamp?: string | undefined;
-    concurrencyStamp?: string | undefined;
-    phoneNumber?: string | undefined;
-    phoneNumberConfirmed?: boolean;
-    twoFactorEnabled?: boolean;
-    lockoutEnd?: Date | undefined;
-    lockoutEnabled?: boolean;
-    accessFailedCount?: number;
-    firstName!: string;
-    lastName!: string;
-    isAdmin!: boolean;
-    bookings?: Booking[] | undefined;
-
-    constructor(data?: IAppUser) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.userName = _data["userName"];
-            this.normalizedUserName = _data["normalizedUserName"];
-            this.email = _data["email"];
-            this.normalizedEmail = _data["normalizedEmail"];
-            this.emailConfirmed = _data["emailConfirmed"];
-            this.passwordHash = _data["passwordHash"];
-            this.securityStamp = _data["securityStamp"];
-            this.concurrencyStamp = _data["concurrencyStamp"];
-            this.phoneNumber = _data["phoneNumber"];
-            this.phoneNumberConfirmed = _data["phoneNumberConfirmed"];
-            this.twoFactorEnabled = _data["twoFactorEnabled"];
-            this.lockoutEnd = _data["lockoutEnd"] ? new Date(_data["lockoutEnd"].toString()) : <any>undefined;
-            this.lockoutEnabled = _data["lockoutEnabled"];
-            this.accessFailedCount = _data["accessFailedCount"];
-            this.firstName = _data["firstName"];
-            this.lastName = _data["lastName"];
-            this.isAdmin = _data["isAdmin"];
-            if (Array.isArray(_data["bookings"])) {
-                this.bookings = [] as any;
-                for (let item of _data["bookings"])
-                    this.bookings!.push(Booking.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): AppUser {
-        data = typeof data === 'object' ? data : {};
-        let result = new AppUser();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["userName"] = this.userName;
-        data["normalizedUserName"] = this.normalizedUserName;
-        data["email"] = this.email;
-        data["normalizedEmail"] = this.normalizedEmail;
-        data["emailConfirmed"] = this.emailConfirmed;
-        data["passwordHash"] = this.passwordHash;
-        data["securityStamp"] = this.securityStamp;
-        data["concurrencyStamp"] = this.concurrencyStamp;
-        data["phoneNumber"] = this.phoneNumber;
-        data["phoneNumberConfirmed"] = this.phoneNumberConfirmed;
-        data["twoFactorEnabled"] = this.twoFactorEnabled;
-        data["lockoutEnd"] = this.lockoutEnd ? this.lockoutEnd.toISOString() : <any>undefined;
-        data["lockoutEnabled"] = this.lockoutEnabled;
-        data["accessFailedCount"] = this.accessFailedCount;
-        data["firstName"] = this.firstName;
-        data["lastName"] = this.lastName;
-        data["isAdmin"] = this.isAdmin;
-        if (Array.isArray(this.bookings)) {
-            data["bookings"] = [];
-            for (let item of this.bookings)
-                data["bookings"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface IAppUser {
-    id?: string | undefined;
-    userName?: string | undefined;
-    normalizedUserName?: string | undefined;
-    email?: string | undefined;
-    normalizedEmail?: string | undefined;
-    emailConfirmed?: boolean;
-    passwordHash?: string | undefined;
-    securityStamp?: string | undefined;
-    concurrencyStamp?: string | undefined;
-    phoneNumber?: string | undefined;
-    phoneNumberConfirmed?: boolean;
-    twoFactorEnabled?: boolean;
-    lockoutEnd?: Date | undefined;
-    lockoutEnabled?: boolean;
-    accessFailedCount?: number;
-    firstName: string;
-    lastName: string;
-    isAdmin: boolean;
-    bookings?: Booking[] | undefined;
-}
-
-export class Booking implements IBooking {
-    id?: number;
-    userId!: string;
-    user?: AppUser;
-    workoutClassId!: number;
-    workoutClass?: WorkoutClass;
-
-    constructor(data?: IBooking) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.userId = _data["userId"];
-            this.user = _data["user"] ? AppUser.fromJS(_data["user"]) : <any>undefined;
-            this.workoutClassId = _data["workoutClassId"];
-            this.workoutClass = _data["workoutClass"] ? WorkoutClass.fromJS(_data["workoutClass"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): Booking {
-        data = typeof data === 'object' ? data : {};
-        let result = new Booking();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["userId"] = this.userId;
-        data["user"] = this.user ? this.user.toJSON() : <any>undefined;
-        data["workoutClassId"] = this.workoutClassId;
-        data["workoutClass"] = this.workoutClass ? this.workoutClass.toJSON() : <any>undefined;
-        return data;
-    }
-}
-
-export interface IBooking {
-    id?: number;
-    userId: string;
-    user?: AppUser;
-    workoutClassId: number;
-    workoutClass?: WorkoutClass;
-}
-
 export class BookingInputDto implements IBookingInputDto {
     userId?: string | undefined;
     workoutClassId?: number;
@@ -863,6 +695,9 @@ export class BookingOutputDto implements IBookingOutputDto {
     userName?: string | undefined;
     workoutClassName?: string | undefined;
     workoutClassId?: number;
+    description?: string | undefined;
+    maxParticipants?: number;
+    currentParticipants?: number;
     startDate?: Date;
     endDate?: Date;
 
@@ -882,6 +717,9 @@ export class BookingOutputDto implements IBookingOutputDto {
             this.userName = _data["userName"];
             this.workoutClassName = _data["workoutClassName"];
             this.workoutClassId = _data["workoutClassId"];
+            this.description = _data["description"];
+            this.maxParticipants = _data["maxParticipants"];
+            this.currentParticipants = _data["currentParticipants"];
             this.startDate = _data["startDate"] ? new Date(_data["startDate"].toString()) : <any>undefined;
             this.endDate = _data["endDate"] ? new Date(_data["endDate"].toString()) : <any>undefined;
         }
@@ -901,6 +739,9 @@ export class BookingOutputDto implements IBookingOutputDto {
         data["userName"] = this.userName;
         data["workoutClassName"] = this.workoutClassName;
         data["workoutClassId"] = this.workoutClassId;
+        data["description"] = this.description;
+        data["maxParticipants"] = this.maxParticipants;
+        data["currentParticipants"] = this.currentParticipants;
         data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
         data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
         return data;
@@ -913,6 +754,9 @@ export interface IBookingOutputDto {
     userName?: string | undefined;
     workoutClassName?: string | undefined;
     workoutClassId?: number;
+    description?: string | undefined;
+    maxParticipants?: number;
+    currentParticipants?: number;
     startDate?: Date;
     endDate?: Date;
 }
@@ -1223,74 +1067,6 @@ export interface IUpdateWorkoutClassDto {
     startDate?: Date;
     endDate?: Date;
     maxParticipants?: number;
-}
-
-export class WorkoutClass implements IWorkoutClass {
-    id?: number;
-    workoutName!: string;
-    description!: string;
-    startDate!: Date;
-    endDate!: Date;
-    maxParticipants!: number;
-    bookings?: Booking[] | undefined;
-
-    constructor(data?: IWorkoutClass) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.workoutName = _data["workoutName"];
-            this.description = _data["description"];
-            this.startDate = _data["startDate"] ? new Date(_data["startDate"].toString()) : <any>undefined;
-            this.endDate = _data["endDate"] ? new Date(_data["endDate"].toString()) : <any>undefined;
-            this.maxParticipants = _data["maxParticipants"];
-            if (Array.isArray(_data["bookings"])) {
-                this.bookings = [] as any;
-                for (let item of _data["bookings"])
-                    this.bookings!.push(Booking.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): WorkoutClass {
-        data = typeof data === 'object' ? data : {};
-        let result = new WorkoutClass();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["workoutName"] = this.workoutName;
-        data["description"] = this.description;
-        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
-        data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
-        data["maxParticipants"] = this.maxParticipants;
-        if (Array.isArray(this.bookings)) {
-            data["bookings"] = [];
-            for (let item of this.bookings)
-                data["bookings"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface IWorkoutClass {
-    id?: number;
-    workoutName: string;
-    description: string;
-    startDate: Date;
-    endDate: Date;
-    maxParticipants: number;
-    bookings?: Booking[] | undefined;
 }
 
 export class WorkoutClassDto implements IWorkoutClassDto {

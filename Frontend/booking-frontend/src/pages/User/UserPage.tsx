@@ -3,9 +3,9 @@ import { BookingOutputDto, WorkoutClassDto } from "../../domain/client";
 import { fetchUserBookings, fetchRecommendation, bookWorkout, cancelBooking } from "../../services/Api";
 import { useAuth } from "../../hooks/useAuth";
 import { AppNavbar } from "../../components/Navbar/Navbar";
-import { AppButton } from "../../components/Button/Button.component";
 import { AppLoading } from "../../components/Loading/Loading.component";
 import { FormatDate } from "../../utils/Date-utils";
+import { AppCard } from "../../components/Card/Card.component";
 
 export function UserPage() {
     const { userId } = useAuth();
@@ -80,23 +80,23 @@ export function UserPage() {
     };
 
     return (
-        <div>
+        <div className="custom-page">
         <AppNavbar/>
         <div className="container mt-5">
             {recLoading ? (
                 <AppLoading/>
                 ) : recommendation ? (
-                    <div className="alert alert-info">
+                    <div className="mb-4">
                         <h4>Rekommenderat pass:</h4>
-                        <p><strong>{recommendation.workoutName}</strong></p>
-                        <p>{recommendation.description}</p>
-                        <p>{FormatDate(recommendation.startDate, recommendation.endDate)}</p>
-                        <AppButton
-                            onClick={() => toggleBooking(recommendation.id!)}
-                            variant={isRecommendedBooked ? "cancel" : "default"}
-                        >
-                            {isRecommendedBooked ? "Avboka" : "Boka"}
-                        </AppButton>
+                        <AppCard
+                        title={recommendation.workoutName}
+                        description={recommendation.description}
+                        time={FormatDate(recommendation.startDate, recommendation.endDate)}
+                        bookings={`${recommendation.bookingIds?.length ?? 0} / ${recommendation.maxParticipants}`}
+                        onClick={() => toggleBooking(recommendation.id!)}
+                        buttonText={isRecommendedBooked ? "Avboka" : "Boka"}
+                        buttonVariant={isRecommendedBooked ? "cancel" : "default"}
+                    />
                     </div>
                 ) : (
                     <div className="alert alert-secondary">
@@ -114,38 +114,52 @@ export function UserPage() {
                             {upcoming.length === 0 ? (
                                 <p>Inga kommande pass bokade.</p>
                             ) : (
-                                <ul className="list-group">
-                                    {upcoming.map(b => (
-                                        <li key={b.id} className="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <strong>{b.workoutClassName}</strong><br />
-                                                {FormatDate(b.startDate, b.endDate)}
-                                            </div>
-                                            <AppButton
-                                                onClick={() => toggleBooking(b.workoutClassId!)}
-                                                variant="cancel"
-                                            >
-                                                Avboka
-                                            </AppButton>
-                                        </li>
+                                <div className="row">
+                                    {[...upcoming]
+                                    .sort((a, b) => {
+                                        const dateA = a.startDate ? new Date(a.startDate).getTime() : 0;
+                                        const dateB = b.startDate ? new Date(b.startDate).getTime() : 0;
+                                        return dateA - dateB;
+                                    })
+                                    .map(b => (
+                                        <div key={b.id} className="col-12 mb-4">
+                                        <AppCard
+                                            title={b.workoutClassName}
+                                            description={b.description}
+                                            time={FormatDate(b.startDate, b.endDate)}
+                                            bookings={`${b.currentParticipants}/${b.maxParticipants}`}
+                                            onClick={() => toggleBooking(b.workoutClassId!)}
+                                            buttonText="Avboka"
+                                            buttonVariant="cancel"
+                                        />
+                                    </div>
                                     ))}
-                                </ul>
+                                </div>
                             )}
                         </section>
 
                     <section>
-                        <h4>Tidigare pass</h4>
+                        <h4>Slutförda pass</h4>
                         {past.length === 0 ? (
                             <p>Inga tidigare pass hittades.</p>
                         ) : (
-                            <ul className="list-group">
-                                {past.map(b => (
-                                    <li key={b.id} className="list-group-item">
-                                        <strong>{b.workoutClassName}</strong><br />
-                                        {FormatDate(b.startDate, b.endDate)}
-                                    </li>
+                            <div className="row">
+                                {[...past]
+                                .sort((a, b) => {
+                                    const dateA = a.startDate ? new Date(a.startDate).getTime() : 0;
+                                    const dateB = b.startDate ? new Date(b.startDate).getTime() : 0;
+                                    return dateB - dateA;
+                                  })
+                                .map(b => (
+                                    <div key={b.id} className="col-12 mb-4">
+                                        <AppCard
+                                            title={b.workoutClassName}
+                                            description={b.description}
+                                            time={FormatDate(b.startDate, b.endDate)}
+                                        />
+                                    </div>
                                 ))}
-                            </ul>
+                            </div>
                         )}
                     </section>
                 </>
