@@ -42,6 +42,7 @@ namespace BookingSystem.API.Services
                 .ToList();
 
             var recommendedClass = await _context.WorkoutClasses
+                .Include(wc => wc.Bookings)
                 .Where(wc => wc.WorkoutName == favorite &&
                              wc.StartDate > DateTime.Now &&
                              !bookedClassIds.Contains(wc.Id))
@@ -61,7 +62,9 @@ namespace BookingSystem.API.Services
                     WorkoutName = recommendedClass.WorkoutName,
                     Description = recommendedClass.Description,
                     StartDate = recommendedClass.StartDate,
-                    EndDate = recommendedClass.EndDate
+                    EndDate = recommendedClass.EndDate,
+                    MaxParticipants = recommendedClass.MaxParticipants,
+                    BookingIds = recommendedClass.Bookings?.Select(b => b.Id).ToList() ?? new List<int>()
                 }
             };
         }

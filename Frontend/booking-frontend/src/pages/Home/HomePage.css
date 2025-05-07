@@ -1,8 +1,45 @@
 body {
-    background-color: #755f80;
+    background-color: #f7abe5a1 !important;
     font-family: 'Segoe UI', sans-serif;
 }
 
 h1 {
     font-weight: 600;
+    font-size: 4.5rem !important;
+}
+h3 {
+    position: relative;
+    font-weight: 600;
+    font-size: 2rem;
+    color: white;
+    z-index: 1;
+    text-shadow: 2px 3px 4px rgb(0, 0, 0);
+    text-align: center;
+}
+
+.hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    opacity: 0.7;
+    z-index: -1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    color: white;
+    text-shadow: 2px 2px 4px rgb(0, 0, 0);
+    padding-top: 16vh;
+    text-align: center;
+}
+
+.hero-section {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    background-color: rgba(83, 43, 81, 0.377);
 }

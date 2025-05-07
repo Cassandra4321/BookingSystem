@@ -46,15 +46,15 @@ namespace BookingSystem.API.Services
                 return null;
             }
 
-            var workotutClass = await _context.WorkoutClasses
+            var workoutClass = await _context.WorkoutClasses
                 .Include(w => w.Bookings)
                 .FirstOrDefaultAsync(w => w.Id == dto.WorkoutClassId);
 
-            if (workotutClass == null)
+            if (workoutClass == null)
             {
                 return null;
             }
-            if (workotutClass.Bookings.Count >= workotutClass.MaxParticipants)
+            if (workoutClass.Bookings.Count >= workoutClass.MaxParticipants)
             {
                 return null;
             }

@@ -1,13 +1,13 @@
 import { useEffect, useState, useContext } from 'react';
 import { WorkoutClass } from '../../interfaces/WorkoutClass';
-import { Booking } from '../../domain/client';
+import { BookingOutputDto } from '../../domain/client';
 import { AppNavbar } from '../../components/Navbar/Navbar';
 import { AuthContext } from '../../context/AuthContext';
-import { AppButton } from '../../components/Button/Button.component';
 import { fetchUserBookings, bookWorkout, cancelBooking } from '../../services/Api';
 import { FormatDate } from '../../utils/Date-utils';
 import { AppCalendar } from '../../components/Calendar/Calendar.component';
 import { Modal } from '../../components/Modals/Modal';
+import { AppCard } from '../../components/Card/Card.component';
 
 
 export function WorkoutClassesPage() {
@@ -33,9 +33,9 @@ export function WorkoutClassesPage() {
             if (!userId || isLoading) return;
     
             try {
-                const data: Booking[] = await fetchUserBookings(userId);
+                const data: BookingOutputDto[] = await fetchUserBookings(userId);
                 const transformed = data.map((booking) => ({
-                    workoutClassId: booking.workoutClassId,
+                    workoutClassId: booking.workoutClassId as number,
                     bookingId: booking.id
                 }));
                 setBookedClasses(transformed);
@@ -96,8 +96,6 @@ export function WorkoutClassesPage() {
                         ? { ...wc, bookingIds: wc.bookingIds.filter(id => id !== bookingId)}
                         : wc
                     ));
-
-                alert('Du har avbokat passet.');
             } catch (err) {
                 console.error(err);
                 alert('Något gick fel vid avbokning.');
@@ -118,8 +116,6 @@ export function WorkoutClassesPage() {
                         : wc
                 ));
     
-
-                alert(`Du har bokat: ${data.workoutClassName}`);
             } catch (err) {
                 console.error(err);
                 alert('Något gick fel vid bokning.');
@@ -133,7 +129,7 @@ export function WorkoutClassesPage() {
     }
 
     return (
-        <div>
+        <div className="custom-page">
             <AppNavbar />
             <div className="container mt-5">
                 <h2 className="mb-4 text-center">Träningspass</h2>
@@ -143,6 +139,9 @@ export function WorkoutClassesPage() {
                     onClassClick={handleCalendarClick}
                     bookedClasses={bookedClasses}
                 />
+                <br/>
+                <br/>
+
                 {selectedClass && (
                     <Modal
                         isOpen={isModalOpen}
@@ -157,28 +156,27 @@ export function WorkoutClassesPage() {
                         actionLabel={isClassBooked(selectedClass.id) ? "Avboka" : "Boka"}
                     />
                 )}
+        
+                <h2 className="mb-3">Lista med alla kommande pass <i className="bi bi-heart-fill heart-icon"></i></h2>
                 <div className="row">
-                    {workoutClasses.map((wc) => {
+                    {[...workoutClasses]
+                    .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
+                    .map((wc) => {
                         const isBooked = isClassBooked(wc.id);
                         const isFull = wc.bookingIds.length >= wc.maxParticipants;
 
                         return (
-                        <div key={wc.id} className="col-md-6 col-lg-4 mb-4">
-                            <div className="card h-100">
-                                <div className="card-body">
-                                    <h5 className="card-title">{wc.workoutName}</h5>
-                                    <p className="card-text">{wc.description}</p>
-                                    <p><strong>Tid</strong> {FormatDate(wc.startDate, wc.endDate)}</p>
-                                    <p><strong>Bokade platser:</strong> {wc.bookingIds.length} / {wc.maxParticipants}</p>
-                                    <AppButton
-                                        onClick={() => toggleBooking(wc.id)}
-                                        disabled={isFull && !isBooked}
-                                        variant={isBooked ? "cancel" : "default"}
-                                    >
-                                        {isBooked ? "Avboka" : isFull ? "Fullbokat" : "Boka"}
-                                    </AppButton>
-                                </div>
-                            </div>
+                        <div key={wc.id} className="col-12 mb-4">
+                <AppCard
+                    title={wc.workoutName}
+                    description={wc.description}
+                    time={FormatDate(wc.startDate, wc.endDate)}
+                    bookings={`${wc.bookingIds.length} / ${wc.maxParticipants}`}
+                    onClick={() => toggleBooking(wc.id)}
+                    buttonText={isBooked ? "Avboka" : isFull ? "Fullbokat" : "Boka"}
+                    buttonDisabled={isFull && !isBooked}
+                    buttonVariant={isBooked ? "cancel" : "default"}
+                />
                         </div>
                     );
                 })}

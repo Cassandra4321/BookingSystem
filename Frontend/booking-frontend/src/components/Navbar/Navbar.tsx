@@ -26,19 +26,25 @@ export function AppNavbar() {
 
     return (
         <>
-       <Navbar bg="light" expand="lg" className="px-4 navbar-light">
+       <Navbar expand="lg" className="px-4 navbar-light sticky-navbar">
             <Container fluid>
                 <Navbar.Brand as={Link} to="/" className="fw-bold fs-4 zengym-title">ZenGym</Navbar.Brand>
                 <Navbar.Toggle aria-controls="main-navbar" />
                 <Navbar.Collapse id="main-navbar" className="w-100 d-flex justify-content-between align-items-center">
                     <Nav className="mx-auto">
-                        <NavDropdown title="Träning" id="training-dropdown" className="text--size-small">
-                            <NavDropdown.Item as={Link} to="/classes">Boka pass</NavDropdown.Item>
-                        </NavDropdown>
+                    <NavDropdown title={
+                        <span className="dropdown-title">Träning<span className="dropdown-arrow">▾</span></span>} 
+                            id="training-dropdown" 
+                            className="text--size-small">
+                        <NavDropdown.Item as={Link} to="/classes">Boka pass</NavDropdown.Item>
+                    </NavDropdown>
 
-                        <NavDropdown title="Mina sidor" id="user-dropdown" className="text--size-small">
-                            <NavDropdown.Item as={Link} to="/user">Mina bokningar</NavDropdown.Item>
-                        </NavDropdown>
+                    <NavDropdown title={
+                        <span className="dropdown-title">Mina sidor <span className="dropdown-arrow">▾</span></span>}
+                            id="user-dropdown"
+                            className="text--size-small">
+                        <NavDropdown.Item as={Link} to="/user">Mina bokningar</NavDropdown.Item>
+                    </NavDropdown>
                     </Nav>
 
 
