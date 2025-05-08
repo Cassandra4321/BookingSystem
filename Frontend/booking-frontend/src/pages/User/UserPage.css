@@ -19,4 +19,9 @@
     z-index: 0;
     pointer-events: none;
   }
-  
+
+  .btn-text {
+    color: black !important;
+    outline: auto;
+    outline-color: rgb(54, 136, 161);
+  }

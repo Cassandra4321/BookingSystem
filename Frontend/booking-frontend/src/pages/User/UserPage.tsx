@@ -5,6 +5,7 @@ import {
 	fetchRecommendation,
 	bookWorkout,
 	cancelBooking,
+	downloadUpcomingBookingsCsv,
 } from '../../services/Api'
 import { useAuth } from '../../hooks/useAuth'
 import { AppNavbar } from '../../components/Navbar/Navbar'
@@ -13,6 +14,7 @@ import { FormatDate } from '../../utils/Date-utils'
 import { AppCard } from '../../components/Card/Card.component'
 import './UserPage.css'
 import branch from '../../assets/branch.png'
+import { AppButton } from '../../components/Button/Button.component'
 
 export function UserPage() {
 	const { userId } = useAuth()
@@ -198,6 +200,14 @@ export function UserPage() {
 											))}
 									</div>
 								)}
+								<AppButton
+									className="btn mt-3 btn-text"
+									onClick={() =>
+										downloadUpcomingBookingsCsv(userId!)
+									}
+								>
+									Ladda ner kommande pass som CSV
+								</AppButton>
 							</section>
 
 							<section className="col-md-6">

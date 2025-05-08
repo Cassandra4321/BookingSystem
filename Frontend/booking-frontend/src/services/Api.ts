@@ -34,3 +34,24 @@ export async function cancelBooking(bookingId: number) {
 export async function fetchRecommendation(userId: string) {
 	return await apiClient.recommendations(userId)
 }
+
+export async function downloadUpcomingBookingsCsv(userId: string) {
+	const url = `https://localhost:7193/api/Csv/user/${encodeURIComponent(userId)}/upcoming`
+	const res = await fetch(url)
+
+	if (!res.ok) throw new Error('Kunde inte ladda ner kommande bokningar.')
+
+	const blob = await res.blob()
+	const urlBlob = window.URL.createObjectURL(blob)
+
+	// Skapa en länk och klicka på den för att trigga nedladdningen
+	const a = document.createElement('a')
+	a.href = urlBlob
+	a.download = 'kommande_bokningar.csv'
+	document.body.appendChild(a)
+	a.click()
+	a.remove()
+
+	// Rensa upp blob-URL efter nedladdning
+	window.URL.revokeObjectURL(urlBlob)
+}
