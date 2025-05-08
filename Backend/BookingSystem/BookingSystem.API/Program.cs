@@ -66,6 +66,7 @@ namespace BookingSystem
             builder.Services.AddScoped<WorkoutClassService>();
             builder.Services.AddScoped<BookingService>();
             builder.Services.AddScoped<RecommendationService>();
+            builder.Services.AddScoped<CsvExportService>();
 
             var app = builder.Build();
 
