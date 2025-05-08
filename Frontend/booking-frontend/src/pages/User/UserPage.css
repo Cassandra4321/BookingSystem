@@ -7,15 +7,16 @@
   
   .card-container {
     width: 50%;
+    z-index: 1;
   }
   
   .branch-image {
     position: absolute;
     right: -22vw;
-    height: 600px;
-    width: 1000px;
+    height: 460px;
+    width: 800px;
 
-    z-index: 1;
+    z-index: 0;
     pointer-events: none;
   }
   

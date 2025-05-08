@@ -9,6 +9,7 @@ import { WorkoutClassesPage } from './pages/WorkoutClasses/WorkoutClassesPage'
 import { UserPage } from './pages/User/UserPage'
 import { useAuth } from './hooks/useAuth'
 import { AppLoading } from './components/Loading/Loading.component'
+import { Layout } from './components/Layout/Layout.component'
 
 function App() {
 	const { isLoading } = useAuth()
@@ -19,35 +20,34 @@ function App() {
 
 	return (
 		<Routes>
-			<Route path="/" element={<HomePage />} />
-			<Route path="/register" element={<RegisterPage />} />
-
-			<Route
-				path="/classes"
-				element={
-					<UserRoute>
-						<WorkoutClassesPage />
-					</UserRoute>
-				}
-			/>
-
-			<Route
-				path="/user"
-				element={
-					<UserRoute>
-						<UserPage />
-					</UserRoute>
-				}
-			/>
-
-			<Route
-				path="/admin-dashboard"
-				element={
-					<AdminRoute>
-						<AdminDashboardPage />
-					</AdminRoute>
-				}
-			/>
+			<Route element={<Layout />}>
+				<Route path="/" element={<HomePage />} />
+				<Route path="/register" element={<RegisterPage />} />
+				<Route
+					path="/classes"
+					element={
+						<UserRoute>
+							<WorkoutClassesPage />
+						</UserRoute>
+					}
+				/>
+				<Route
+					path="/user"
+					element={
+						<UserRoute>
+							<UserPage />
+						</UserRoute>
+					}
+				/>
+				<Route
+					path="/admin-dashboard"
+					element={
+						<AdminRoute>
+							<AdminDashboardPage />
+						</AdminRoute>
+					}
+				/>
+			</Route>
 		</Routes>
 	)
 }
