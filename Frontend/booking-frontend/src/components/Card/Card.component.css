@@ -1,0 +1,13 @@
+.card-title {
+    font-size: 1.8rem;
+    line-height: 1.6;
+}
+
+.card-description {
+    font-size: 1.3rem;
+    line-height: 1.6;
+}
+
+.custom-width {
+    width: 80%;
+  }

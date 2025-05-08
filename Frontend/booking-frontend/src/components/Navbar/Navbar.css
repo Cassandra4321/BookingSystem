@@ -15,8 +15,7 @@
 
 .navbar-light .navbar-nav .nav-link,
 .navbar-light .navbar-nav .dropdown-toggle {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.7rem;
   font-weight: 400;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.747);
   line-height: 1.5;
@@ -33,6 +32,12 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+}
+
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .dropdown-toggle.show {
+  color: #7debc6dc !important; /* eller samma färg som du använder för normal */
+  background-color: transparent !important;
 }
 
 .dropdown-title {
@@ -80,6 +85,7 @@
   border-radius: 0;
   padding: 10px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  font-size: 1.3rem !important;
 }
 
 .navbar-light .navbar-nav .nav-link.active {
@@ -88,7 +94,7 @@
 }
 
 .navbar-light .dropdown-menu .dropdown-item:hover {
-    font-size: 1.1rem;
+    font-size: 1.4rem;
     transition: font-size 0.3s ease;
   }
 
@@ -98,8 +104,9 @@
 
 .navbar-light .d-flex .form-control {
     width: auto;
-    height: 35px;
-    max-width: 200px;
+    height: 45px;
+    max-width: 240px;
+    font-size: 1.2rem;
   }
 
   .navbar-light .dropdown-menu .dropdown-item:active {
@@ -112,10 +119,11 @@
     transition: color 0.3s ease, transform 0.3s ease;
     color: #ffffffea !important;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.678);
+    font-size: 2.1rem !important;
   }
   
   .zengym-title:hover {
-    color: #62caab !important;
+    color: #7ee4c5 !important;
     transform: scale(1.1);
     cursor: pointer;
   }
