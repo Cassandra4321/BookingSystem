@@ -1,6 +1,5 @@
 body {
     background-color: #f7abe5a1 !important;
-    font-family: 'Segoe UI', sans-serif;
 }
 
 h1 {
@@ -32,8 +31,8 @@ h3 {
     position: relative;
     z-index: 1;
     color: white;
-    text-shadow: 2px 2px 4px rgb(0, 0, 0);
-    padding-top: 16vh;
+    text-shadow: 1px 1px 4px rgb(0, 0, 0);
+    padding-top: 20vh;
     text-align: center;
 }
 
@@ -42,4 +41,64 @@ h3 {
     height: 100vh;
     overflow: hidden;
     background-color: rgba(83, 43, 81, 0.377);
+}
+
+.intro-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.intro-text {
+    max-width: 50%;
+    margin: 80px auto 40px 40px; /*top, right, bottom, left */
+    text-align: left;
+    line-height: 1.6;
+    background-color: rgba(255, 255, 255, 0.637);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    flex: 1;
+}
+.intro-text h4 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #393642;
+}
+.intro-text p {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.intro-image img {
+    max-height: 650px;
+    width: auto;
+    margin-top: 40px;
+    margin-right: 300px;
+}
+
+.news-container {
+    margin-top: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.news-photo img {
+    max-height: 600px;
+    width: auto;
+    margin-right: 40px;
+    margin-top: -90px;
+}
+
+.news-text {
+    background-color: rgba(255, 255, 255, 0.637);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    line-height: 1.6;
+    font-size: 1.5rem;
+    color: #393642;
+    margin-right: 145px;
+    margin-top: -15px;
 }

@@ -1,0 +1,21 @@
+.recommendation-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+  }
+  
+  .card-container {
+    width: 50%;
+  }
+  
+  .branch-image {
+    position: absolute;
+    right: -22vw;
+    height: 600px;
+    width: 1000px;
+
+    z-index: 1;
+    pointer-events: none;
+  }
+  
