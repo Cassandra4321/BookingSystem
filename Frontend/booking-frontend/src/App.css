@@ -3,3 +3,20 @@
     margin: 0 auto;
     padding: 2rem;
 }
+
+.page-container {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+.content {
+	flex: 1;
+}
+
+footer.copyright {
+	text-align: center;
+	padding: 1rem;
+	color: #666;
+	font-size: 1.2rem;
+}

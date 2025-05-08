@@ -99,9 +99,6 @@ export function HomePage() {
 					</div>
 				</div>
 			</div>
-			<div>
-				<p>Copyright 2025 ZenGym AB</p>
-			</div>
 		</div>
 	)
 }

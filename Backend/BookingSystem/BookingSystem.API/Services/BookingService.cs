@@ -86,6 +86,7 @@ namespace BookingSystem.API.Services
             var bookings = await _context.Bookings
                 .Include(b => b.User)
                 .Include(b => b.WorkoutClass)
+                .ThenInclude(w => w.Bookings)
                 .Where(b => b.UserId == userId)
                 .ToListAsync();
 
