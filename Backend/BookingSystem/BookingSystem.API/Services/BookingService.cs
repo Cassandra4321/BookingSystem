@@ -104,5 +104,17 @@ namespace BookingSystem.API.Services
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<List<BookingOutputDto>> GetOnlyUpcomingBookingsForUserAsync(string userId)
+        {
+            var bookings = await _context.Bookings
+                .Include(b => b.User)
+                .Include(b => b.WorkoutClass)
+                .ThenInclude(w => w.Bookings)
+                .Where(b => b.UserId == userId && b.WorkoutClass.StartDate > DateTime.Now)
+                .ToListAsync();
+
+            return bookings.Select(BookingMapper.MapToDto).ToList();
+        }
     }
 }
