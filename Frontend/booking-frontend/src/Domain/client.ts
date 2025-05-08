@@ -359,6 +359,42 @@ export class ApiClient {
     /**
      * @return OK
      */
+    upcoming(userId: string): Promise<void> {
+        let url_ = this.baseUrl + "/api/Csv/user/{userId}/upcoming";
+        if (userId === undefined || userId === null)
+            throw new Error("The parameter 'userId' must be defined.");
+        url_ = url_.replace("{userId}", encodeURIComponent("" + userId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUpcoming(_response);
+        });
+    }
+
+    protected processUpcoming(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
     recommendations(userId: string): Promise<WorkoutClassDto[]> {
         let url_ = this.baseUrl + "/{userId}/recommendations";
         if (userId === undefined || userId === null)
