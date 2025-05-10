@@ -54,7 +54,7 @@ namespace BookingSystem.API.Services
             {
                 return null;
             }
-            if (workoutClass.Bookings.Count >= workoutClass.MaxParticipants)
+            if ((workoutClass.Bookings?.Count ?? 0) >= workoutClass.MaxParticipants)
             {
                 return null;
             }
