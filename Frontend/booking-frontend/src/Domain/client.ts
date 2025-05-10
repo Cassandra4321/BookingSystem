@@ -19,6 +19,43 @@ export class ApiClient {
     }
 
     /**
+     * @return OK
+     */
+    adminStatistics(): Promise<AdminStatsDtos> {
+        let url_ = this.baseUrl + "/api/AdminStatistics";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "text/plain"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processAdminStatistics(_response);
+        });
+    }
+
+    protected processAdminStatistics(response: Response): Promise<AdminStatsDtos> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AdminStatsDtos.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AdminStatsDtos>(null as any);
+    }
+
+    /**
      * @param body (optional) 
      * @return Created
      */
@@ -685,6 +722,62 @@ export class ApiClient {
     }
 }
 
+export class AdminStatsDtos implements IAdminStatsDtos {
+    totalUsers?: number;
+    totalBookings?: number;
+    totalWorkoutClasses?: number;
+    mostPopularClasses?: WorkoutClassStats[] | undefined;
+
+    constructor(data?: IAdminStatsDtos) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalUsers = _data["totalUsers"];
+            this.totalBookings = _data["totalBookings"];
+            this.totalWorkoutClasses = _data["totalWorkoutClasses"];
+            if (Array.isArray(_data["mostPopularClasses"])) {
+                this.mostPopularClasses = [] as any;
+                for (let item of _data["mostPopularClasses"])
+                    this.mostPopularClasses!.push(WorkoutClassStats.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): AdminStatsDtos {
+        data = typeof data === 'object' ? data : {};
+        let result = new AdminStatsDtos();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalUsers"] = this.totalUsers;
+        data["totalBookings"] = this.totalBookings;
+        data["totalWorkoutClasses"] = this.totalWorkoutClasses;
+        if (Array.isArray(this.mostPopularClasses)) {
+            data["mostPopularClasses"] = [];
+            for (let item of this.mostPopularClasses)
+                data["mostPopularClasses"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IAdminStatsDtos {
+    totalUsers?: number;
+    totalBookings?: number;
+    totalWorkoutClasses?: number;
+    mostPopularClasses?: WorkoutClassStats[] | undefined;
+}
+
 export class BookingInputDto implements IBookingInputDto {
     userId?: string | undefined;
     workoutClassId?: number;
@@ -1171,6 +1264,46 @@ export interface IWorkoutClassDto {
     bookingIds?: number[] | undefined;
     startDate?: Date;
     endDate?: Date;
+}
+
+export class WorkoutClassStats implements IWorkoutClassStats {
+    workoutName?: string | undefined;
+    bookingCount?: number;
+
+    constructor(data?: IWorkoutClassStats) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.workoutName = _data["workoutName"];
+            this.bookingCount = _data["bookingCount"];
+        }
+    }
+
+    static fromJS(data: any): WorkoutClassStats {
+        data = typeof data === 'object' ? data : {};
+        let result = new WorkoutClassStats();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["workoutName"] = this.workoutName;
+        data["bookingCount"] = this.bookingCount;
+        return data;
+    }
+}
+
+export interface IWorkoutClassStats {
+    workoutName?: string | undefined;
+    bookingCount?: number;
 }
 
 export class SwaggerException extends Error {

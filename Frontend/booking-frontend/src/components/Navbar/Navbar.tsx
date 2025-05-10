@@ -4,14 +4,19 @@ import { useAuth } from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import { AppButton } from '../Button/Button.component'
 import { AppLinkButton } from '../Link/Link.component'
+import { AppLoading } from '../Loading/Loading.component'
 import './Navbar.css'
 import { Navbar, Nav, NavDropdown, Container, Form } from 'react-bootstrap'
 
 export function AppNavbar() {
-	const { isLoggedIn, login, logout, message } = useAuth()
+	const { isLoggedIn, isAdmin, login, logout, message, isLoading } = useAuth()
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const navigate = useNavigate()
+
+	if (isLoading) {
+		return <AppLoading />
+	}
 
 	const handleLogin = async (e: React.FormEvent) => {
 		e.preventDefault()
@@ -70,6 +75,28 @@ export function AppNavbar() {
 									Mina bokningar
 								</NavDropdown.Item>
 							</NavDropdown>
+
+							{isAdmin && (
+								<NavDropdown
+									title={
+										<span className="dropdown-title">
+											Admin{' '}
+											<span className="dropdown-arrow">
+												▾
+											</span>
+										</span>
+									}
+									id="admin-dropdown"
+									className="text--size-small"
+								>
+									<NavDropdown.Item
+										as={Link}
+										to="/admin-stats"
+									>
+										Statistik
+									</NavDropdown.Item>
+								</NavDropdown>
+							)}
 						</Nav>
 
 						<div className="d-flex align-items-center">

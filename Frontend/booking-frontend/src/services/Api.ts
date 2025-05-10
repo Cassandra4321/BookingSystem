@@ -55,3 +55,9 @@ export async function downloadUpcomingBookingsCsv(userId: string) {
 	// Rensa upp blob-URL efter nedladdning
 	window.URL.revokeObjectURL(urlBlob)
 }
+
+export async function fetchAdminStatistics() {
+	const res = await fetch('https://localhost:7193/api/AdminStatistics')
+	if (!res.ok) throw new Error('Kunde inte hämta statistik')
+	return res.json()
+}
