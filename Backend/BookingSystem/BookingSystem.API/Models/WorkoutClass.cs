@@ -20,8 +20,8 @@ namespace BookingSystem.API.Models
         public DateTime EndDate { get; set; }
 
         [Required]
-        public int MaxParticipants { get; set; } 
+        public int MaxParticipants { get; set; }
 
-        public ICollection<Booking>? Bookings { get; set; }
+        public ICollection<Booking>? Bookings { get; set; } = new List<Booking>();
     }
 }

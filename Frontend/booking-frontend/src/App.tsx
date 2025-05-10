@@ -4,7 +4,7 @@ import { RegisterPage } from './pages/Register/RegisterPage'
 import { HomePage } from './pages/Home/HomePage'
 import { AdminRoute } from './components/ProtectedRoute/AdminRoute'
 import { UserRoute } from './components/ProtectedRoute/UserRoute'
-import { AdminDashboardPage } from './pages/Admin/AdminDashboardPage'
+import { AdminStatsPage } from './pages/Admin/AdminStatistics/AdminStatisticsPage'
 import { WorkoutClassesPage } from './pages/WorkoutClasses/WorkoutClassesPage'
 import { UserPage } from './pages/User/UserPage'
 import { useAuth } from './hooks/useAuth'
@@ -40,10 +40,10 @@ function App() {
 					}
 				/>
 				<Route
-					path="/admin-dashboard"
+					path="/admin-stats"
 					element={
 						<AdminRoute>
-							<AdminDashboardPage />
+							<AdminStatsPage />
 						</AdminRoute>
 					}
 				/>

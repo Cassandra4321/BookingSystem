@@ -21,21 +21,22 @@ namespace BookingSystem.API.Services
                 .Include(c => c.Bookings)
                 .ToListAsync();
 
-            var topFive = mostPopular
+            var top = mostPopular
                 .Select(c => new WorkoutClassStats
                 {
                     WorkoutName = c.WorkoutName,
                     BookingCount = c.Bookings?.Count ?? 0
                 })
                 .OrderByDescending(c => c.BookingCount)
-                .Take(5)
+                .Take(1)
                 .ToList();
 
             return new AdminStatsDtos
             {
                 TotalUsers = totalUsers,
                 TotalBookings = totalBookings,
-                TotalWorkoutClasses = totalWorkoutClasses
+                TotalWorkoutClasses = totalWorkoutClasses,
+                MostPopularClasses = top
             };
         }
     }
