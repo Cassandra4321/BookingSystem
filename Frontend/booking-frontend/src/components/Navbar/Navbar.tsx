@@ -95,6 +95,12 @@ export function AppNavbar() {
 									>
 										Statistik
 									</NavDropdown.Item>
+									<NavDropdown.Item
+										as={Link}
+										to="/admin-crud"
+									>
+										AdminCrud
+									</NavDropdown.Item>
 								</NavDropdown>
 							)}
 						</Nav>
