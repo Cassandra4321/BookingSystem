@@ -10,6 +10,7 @@ import { UserPage } from './pages/User/UserPage'
 import { useAuth } from './hooks/useAuth'
 import { AppLoading } from './components/Loading/Loading.component'
 import { Layout } from './components/Layout/Layout.component'
+import { AdminCRUDPage } from './pages/Admin/AdminWorkoutClasses/AdminWorkoutClassesPage'
 
 function App() {
 	const { isLoading } = useAuth()
@@ -44,6 +45,14 @@ function App() {
 					element={
 						<AdminRoute>
 							<AdminStatsPage />
+						</AdminRoute>
+					}
+				/>
+				<Route
+					path="/admin-crud"
+					element={
+						<AdminRoute>
+							<AdminCRUDPage />
 						</AdminRoute>
 					}
 				/>
