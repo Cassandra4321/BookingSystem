@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using BookingSystem.API.Models;
 using BookingSystem.API.Services;
 using BookingSystem.API.Dtos;
 
