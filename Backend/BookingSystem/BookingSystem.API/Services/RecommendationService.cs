@@ -1,6 +1,5 @@
 ﻿using BookingSystem.API.Dtos;
 using Microsoft.EntityFrameworkCore;
-using BookingSystem.API.Models;
 using BookingSystem.API.Data;
 
 namespace BookingSystem.API.Services
@@ -22,6 +21,11 @@ namespace BookingSystem.API.Services
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user == null)
+            {
+                return Enumerable.Empty<WorkoutClassDto>();
+            }
+
+            if (user.Bookings == null || user.Bookings.Count == 0)
             {
                 return Enumerable.Empty<WorkoutClassDto>();
             }

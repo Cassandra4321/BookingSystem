@@ -1,6 +1,5 @@
 ﻿using BookingSystem.API.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Text;
 
 namespace BookingSystem.API.Controllers
 {
@@ -16,6 +15,12 @@ namespace BookingSystem.API.Controllers
             _csvExportService = csvExportService;
             _bookingService = bookingService;
         }
+
+        /// <summary>
+        /// Returns a CSV file containing the user's upcoming bookings.
+        /// </summary>
+        /// <param name="userId">The ID of the user.</param>
+        /// <returns>A CSV file containing the upcoming bookings, or a 404 response if no bookings are found.</returns>
 
         [HttpGet("user/{userId}/upcoming")]
         public async Task<IActionResult> DownloadUpcomingBookingsCSV(string userId)
