@@ -1,17 +1,17 @@
-import { Navigate } from 'react-router-dom'
-import { useAuth } from '../../hooks/useAuth'
-import { ReactNode } from 'react'
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
+import { ReactNode } from 'react';
 
 interface Props {
-	children: ReactNode
+  children: ReactNode;
 }
 
 export function UserRoute({ children }: Props) {
-	const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useAuth();
 
-	if (!isLoggedIn) {
-		return <Navigate to="/" replace />
-	}
+  if (!isLoggedIn) {
+    return <Navigate to="/" replace />;
+  }
 
-	return <>{children}</>
+  return <>{children}</>;
 }
