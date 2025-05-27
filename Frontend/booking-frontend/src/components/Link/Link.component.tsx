@@ -1,16 +1,16 @@
-import { Link } from 'react-router-dom'
-import '../Button/button.component.css'
+import { Link } from 'react-router-dom';
+import '../Button/button.component.css';
 
 export function AppLinkButton({
-	to,
-	children,
+  to,
+  children,
 }: {
-	to: string
-	children: React.ReactNode
+  to: string;
+  children: React.ReactNode;
 }) {
-	return (
-		<Link to={to} className="btn-enhanced">
-			{children}
-		</Link>
-	)
+  return (
+    <Link to={to} className="btn-enhanced">
+      {children}
+    </Link>
+  );
 }
