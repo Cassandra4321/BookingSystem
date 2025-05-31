@@ -1,4 +1,5 @@
 import { AppNavbar } from '../../components/Navbar/Navbar';
+import { AppCarousel } from '../../components/Carousel/Carousel.component';
 import { useAuth } from '../../hooks/useAuth';
 import gym3 from '../../assets/gym3.jpg';
 import yoga2 from '../../assets/yoga2.png';
@@ -60,6 +61,11 @@ export function HomePage() {
           <img src={yoga2} alt="Yoga Pose" />
         </div>
       </div>
+
+      <div>
+        <h4>Våra olika pass</h4>
+      </div>
+      <AppCarousel></AppCarousel>
 
       <div className="news-container">
         <div className="news-photo">
