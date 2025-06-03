@@ -17,15 +17,16 @@ namespace BookingSystem.API.Services
             var totalBookings = await _context.Bookings.CountAsync();
             var totalWorkoutClasses = await _context.WorkoutClasses.CountAsync();
 
-            var mostPopular = await _context.WorkoutClasses
-                .Include(c => c.Bookings)
+            var allBookings = await _context.Bookings
+                .Include(b => b.WorkoutClass)
                 .ToListAsync();
 
-            var top = mostPopular
-                .Select(c => new WorkoutClassStats
+            var popularClasses = allBookings
+                .GroupBy(b => b.WorkoutClass.WorkoutName)
+                .Select(g => new WorkoutClassStats
                 {
-                    WorkoutName = c.WorkoutName,
-                    BookingCount = c.Bookings?.Count ?? 0
+                    WorkoutName = g.Key,
+                    BookingCount = g.Count()
                 })
                 .OrderByDescending(c => c.BookingCount)
                 .Take(1)
@@ -36,7 +37,7 @@ namespace BookingSystem.API.Services
                 TotalUsers = totalUsers,
                 TotalBookings = totalBookings,
                 TotalWorkoutClasses = totalWorkoutClasses,
-                MostPopularClasses = top
+                MostPopularClasses = popularClasses,
             };
         }
     }
