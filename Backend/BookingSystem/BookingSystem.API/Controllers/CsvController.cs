@@ -23,6 +23,8 @@ namespace BookingSystem.API.Controllers
         /// <returns>A CSV file containing the upcoming bookings, or a 404 response if no bookings are found.</returns>
 
         [HttpGet("user/{userId}/upcoming")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DownloadUpcomingBookingsCSV(string userId)
         {
             var bookings = await _bookingService.GetOnlyUpcomingBookingsForUserAsync(userId);

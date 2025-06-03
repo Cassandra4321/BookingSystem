@@ -4,6 +4,9 @@ using BookingSystem.API.Dtos;
 
 namespace BookingSystem.API.Controllers
 {
+
+    [ApiController]
+    [Route("api/[controller]")]
     public class UserController : Controller
     {
         private readonly RecommendationService _recommendationService;
@@ -14,6 +17,8 @@ namespace BookingSystem.API.Controllers
         }
 
         [HttpGet("{userId}/recommendations")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<WorkoutClassDto>>> GetRecommendations(string userId)
         {
             var result = await _recommendationService.GetRecommendedClassesAsync(userId);

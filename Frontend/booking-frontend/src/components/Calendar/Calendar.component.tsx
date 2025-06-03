@@ -61,6 +61,10 @@ export function AppCalendar({
     return bookedClasses.some(b => b.workoutClassId === workoutClassId);
   };
 
+  const isClassFull = (workoutClass: WorkoutClass) => {
+    return workoutClass.bookingIds.length >= workoutClass.maxParticipants;
+  };
+
   return (
     <div style={{ height: 600 }}>
       <Calendar
@@ -76,6 +80,11 @@ export function AppCalendar({
         onNavigate={handleNavigate}
         date={currentDate}
         onSelectEvent={(event: CalendarEvent) => {
+          const isBooked = isClassBooked(event.workoutClass.id);
+          const isFull = isClassFull(event.workoutClass);
+
+          if (isFull && !isBooked) return;
+
           onClassClick(event.workoutClass);
         }}
         messages={{
@@ -89,9 +98,16 @@ export function AppCalendar({
         }}
         eventPropGetter={event => {
           const isBooked = isClassBooked(event.workoutClass.id);
-          return {
-            className: isBooked ? 'calendar-event booked' : 'calendar-event',
-          };
+          const isFull = isClassFull(event.workoutClass);
+
+          let className = 'calendar-event';
+          if (isBooked) {
+            className += ' booked';
+          } else if (isFull) {
+            className += ' full';
+          }
+
+          return { className };
         }}
       />
     </div>
