@@ -57,3 +57,8 @@ a:hover {
     min-height: 100vh;
     padding-top: 100px;
 }
+
+.custom-badge {
+  background-color: #49a565; /* Orange exempel */
+  color: white; /* Textfärg för kontrast */
+}

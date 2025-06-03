@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Carousel } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Carousel.component.css';
@@ -32,26 +31,9 @@ const classes = [
 ];
 
 export function AppCarousel() {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex(prevIndex => (prevIndex + 1) % classes.length);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleSelect = (selectedIndex: number) => {
-    setIndex(selectedIndex);
-  };
-
   return (
     <div className="container carousel-container">
-      <Carousel
-        activeIndex={index}
-        onSelect={handleSelect}
-        indicators={true}
-        controls={true}>
+      <Carousel interval={3500} indicators controls>
         {classes.map((klass, i) => (
           <Carousel.Item key={i}>
             <div className="d-flex flex-column align-items-center justify-content-center p-5 carousel-item-content">

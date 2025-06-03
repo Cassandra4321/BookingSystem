@@ -184,8 +184,8 @@ export function WorkoutClassesPage() {
               const isBooked = isClassBooked(wc.id);
               const isFull = wc.bookingIds.length >= wc.maxParticipants;
               return (
-                <div key={wc.id} className="col-12 mb-4">
-                  <div style={{ width: '55%' }}>
+                <div key={wc.id} className="col-13 mb-3">
+                  <div style={{ width: '45%' }}>
                     <AppCard
                       title={wc.workoutName}
                       description={wc.description}
