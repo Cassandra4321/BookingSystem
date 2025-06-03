@@ -99,7 +99,7 @@ export function UserPage() {
     <div className="custom-page">
       <AppNavbar />
       <div className="container mt-5">
-        <h4>
+        <h4 className="left-aligned-heading">
           <strong>Det här passet rekommenderar vi åt dig</strong>
           <i className="bi bi-heart-fill heart-icon-smaller"></i>
         </h4>
@@ -136,7 +136,7 @@ export function UserPage() {
           <>
             <div className="row">
               <section className="col-md-6">
-                <h4>
+                <h4 className="left-aligned-heading">
                   <strong>Kommande pass:</strong>
                 </h4>
                 {upcoming.length === 0 ? (
@@ -176,7 +176,7 @@ export function UserPage() {
               </section>
 
               <section className="col-md-6">
-                <h4>
+                <h4 className="left-aligned-heading">
                   <strong>Slutförda pass:</strong>
                 </h4>
                 {past.length === 0 ? (

@@ -13,8 +13,8 @@
   .branch-image {
     position: absolute;
     right: -22vw;
-    height: 460px;
-    width: 800px;
+    height: 480px;
+    width: 900px;
 
     z-index: 0;
     pointer-events: none;
@@ -25,3 +25,7 @@
     outline: auto;
     outline-color: rgb(54, 136, 161);
   }
+
+.left-aligned-heading {
+  text-align: left !important;
+}

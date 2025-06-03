@@ -17,6 +17,8 @@ namespace BookingSystem.API.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<AdminStatsDtos>> GetStatisticsAsync()
         {
             var stats = await _statisticsService.GetStatisticsAsync();

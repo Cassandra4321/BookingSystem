@@ -33,3 +33,32 @@
     font-size: 1.1rem;
     padding: 0.4rem 0.8rem;
   }
+
+.calendar-event.full {
+  background-color: #6c757d;
+  color: white;
+  position: relative;
+  cursor: not-allowed;
+  overflow: visible;
+}
+
+.calendar-event.full::after {
+  content: "Fullbokat" !important;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #343a40;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+.calendar-event.full:hover::after {
+  opacity: 1;
+}
