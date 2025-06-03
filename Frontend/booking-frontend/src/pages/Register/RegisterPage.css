@@ -1,0 +1,18 @@
+.register-page form .form-control {
+  width: 350px;
+}
+
+.register-page .container {
+  display: flex;
+  gap: 2rem;
+}
+
+.register-page .form-container {
+  flex: 1;
+}
+
+.register-page .image-container img {
+  width: 800px;
+  height: 1200px;
+  border-radius: 0.1rem;
+}
