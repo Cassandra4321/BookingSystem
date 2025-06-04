@@ -54,7 +54,7 @@ export function AdminStatsPage() {
     <div className="custom-page">
       <AppNavbar />
       <div className="container mt-5">
-        <h1 className="mb-4 text-center">Statistik</h1>
+        <h2 className="mb-4 text-center">Statistik</h2>
         <div className="row mb-4">
           <div className="col-md-4">
             <div className="card border-primary mb-3">

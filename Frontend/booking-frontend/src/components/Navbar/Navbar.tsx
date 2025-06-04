@@ -41,32 +41,36 @@ export function AppNavbar() {
             id="main-navbar"
             className="w-100 d-flex justify-content-between align-items-center">
             <Nav className="mx-auto">
-              <NavDropdown
-                title={
-                  <span className="dropdown-title">
-                    Träning
-                    <span className="dropdown-arrow">▾</span>
-                  </span>
-                }
-                id="training-dropdown"
-                className="text--size-small">
-                <NavDropdown.Item as={Link} to="/classes">
-                  Boka pass
-                </NavDropdown.Item>
-              </NavDropdown>
+              {isLoggedIn && (
+                <>
+                  <NavDropdown
+                    title={
+                      <span className="dropdown-title">
+                        Träning
+                        <span className="dropdown-arrow">▾</span>
+                      </span>
+                    }
+                    id="training-dropdown"
+                    className="text--size-small">
+                    <NavDropdown.Item as={Link} to="/classes">
+                      Boka pass
+                    </NavDropdown.Item>
+                  </NavDropdown>
 
-              <NavDropdown
-                title={
-                  <span className="dropdown-title">
-                    Mina sidor <span className="dropdown-arrow">▾</span>
-                  </span>
-                }
-                id="user-dropdown"
-                className="text--size-small">
-                <NavDropdown.Item as={Link} to="/user">
-                  Mina bokningar
-                </NavDropdown.Item>
-              </NavDropdown>
+                  <NavDropdown
+                    title={
+                      <span className="dropdown-title">
+                        Mina sidor <span className="dropdown-arrow">▾</span>
+                      </span>
+                    }
+                    id="user-dropdown"
+                    className="text--size-small">
+                    <NavDropdown.Item as={Link} to="/user">
+                      Mina bokningar
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </>
+              )}
 
               {isAdmin && (
                 <NavDropdown
