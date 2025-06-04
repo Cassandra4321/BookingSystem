@@ -17,7 +17,7 @@ namespace BookingSystem.API.Models
         public string Email { get; set; } = null!;
 
         [Required]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{5,}$", ErrorMessage = "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number.")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{5,}$", ErrorMessage = "Password must be at least 5 characters long, contain at least one uppercase letter, one lowercase letter, and one number.")]
         public string Password { get; set; } = null!;
 
     }
