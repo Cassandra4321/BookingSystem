@@ -78,7 +78,7 @@ namespace BookingSystem.API.Controllers
             {
                 return NotFound($"Workout class with ID {id} not found.");
             }
-            return Ok($"Booking with ID {id} deleted successfully.");
+            return Ok($"Workoutclass with ID {id} deleted successfully.");
         }
     }
 }
