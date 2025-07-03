@@ -6,7 +6,7 @@ interface ModalProps {
   onClose: () => void;
   onBook: () => void;
   title: string;
-  description: string;
+  shortDescription: string;
   actionLabel: string;
   time: string;
 }
@@ -16,7 +16,7 @@ export function Modal({
   onClose,
   onBook,
   title,
-  description,
+  shortDescription,
   actionLabel,
   time,
 }: ModalProps) {
@@ -26,7 +26,7 @@ export function Modal({
     <div className="modal-overlay">
       <div className="modal-content">
         <h2>{title}</h2>
-        <p>{description}</p>
+        <p>{shortDescription}</p>
         <p>{time}</p>
         <div className="modal-buttons">
           <AppButton

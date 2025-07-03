@@ -64,7 +64,8 @@ namespace BookingSystem.API.Services
                 {
                     Id = recommendedClass.Id,
                     WorkoutName = recommendedClass.WorkoutName,
-                    Description = recommendedClass.Description,
+                    LongDescription = recommendedClass.LongDescription,
+                    ShortDescription = recommendedClass.ShortDescription,
                     StartDate = recommendedClass.StartDate,
                     EndDate = recommendedClass.EndDate,
                     MaxParticipants = recommendedClass.MaxParticipants,

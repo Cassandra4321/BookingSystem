@@ -3,7 +3,7 @@ import './Card.component.css';
 
 interface AppCardProps {
   title?: string;
-  description?: string;
+  shortDescription?: string;
   time?: string;
   bookings?: string;
   onClick?: () => void;
@@ -14,7 +14,7 @@ interface AppCardProps {
 
 export function AppCard({
   title,
-  description,
+  shortDescription,
   time,
   bookings,
   onClick,
@@ -26,7 +26,7 @@ export function AppCard({
     <div className="card h-100 custom-width">
       <div className="card-body">
         <h5 className="card-title">{title}</h5>
-        <p className="card-description">{description}</p>
+        <p className="card-description">{shortDescription}</p>
         <p className="card-description">Tid {time}</p>
 
         {bookings && (

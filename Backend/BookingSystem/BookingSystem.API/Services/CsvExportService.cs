@@ -20,7 +20,7 @@ namespace BookingSystem.API.Services
             foreach (var booking in bookings)
             {
                 // Quotation marks are used around each field to avoid CSV issues with special characters
-                csv.AppendLine($"\"{booking.WorkoutClassName}\",\"{booking.Description}\",\"{booking.StartDate:yyyy-MM-dd HH:mm}\",\"{booking.EndDate:yyyy-MM-dd HH:mm}\"");
+                csv.AppendLine($"\"{booking.WorkoutClassName}\",\"{booking.LongDescription}\",\"{booking.StartDate:yyyy-MM-dd HH:mm}\",\"{booking.EndDate:yyyy-MM-dd HH:mm}\"");
             }
 
             return Encoding.UTF8.GetBytes(csv.ToString());

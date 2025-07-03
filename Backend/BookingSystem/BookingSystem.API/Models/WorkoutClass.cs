@@ -11,7 +11,10 @@ namespace BookingSystem.API.Models
         public string WorkoutName { get; set; } = null!;
 
         [Required]
-        public string Description { get; set; } = null!;
+        public string ShortDescription { get; set; } = null!;
+
+        [Required]
+        public string LongDescription { get; set; } = null!;
 
         [Required]
         public DateTime StartDate { get; set; }

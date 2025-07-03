@@ -7,7 +7,10 @@ namespace BookingSystem.API.Dtos
         [Required]
         public string WorkoutName { get; set; } = string.Empty;
 
-        public string Description { get; set; } = string.Empty;
+        public string LongDescription { get; set; } = string.Empty;
+
+        [Required]
+        public string ShortDescription { get; set; } = string.Empty;
 
         [Required]
         public DateTime StartDate { get; set; }

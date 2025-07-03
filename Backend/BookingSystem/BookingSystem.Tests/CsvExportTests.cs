@@ -14,14 +14,14 @@ namespace BookingSystem.Tests
                 new BookingOutputDto
                 {
                     WorkoutClassName = "Yoga",
-                    Description = "A relaxing yoga class.",
+                    ShortDescription = "A relaxing yoga class.",
                     StartDate = new DateTime(2025, 05, 10, 10, 0, 0),
                     EndDate = new DateTime(2025, 05, 10, 11, 0, 0)
                 },
                 new BookingOutputDto
                 {
                     WorkoutClassName = "Pilates",
-                    Description = "A strengthening Pilates class.",
+                    ShortDescription = "A strengthening Pilates class.",
                     StartDate = DateTime.Now.AddDays(2),
                     EndDate = DateTime.Now.AddDays(2).AddHours(1)
                 }
@@ -43,7 +43,7 @@ namespace BookingSystem.Tests
             var booking = new BookingOutputDto
             {
                 WorkoutClassName = "Boxning",
-                Description = "Högintensiv träning",
+                ShortDescription = "Högintensiv träning",
                 StartDate = new DateTime(2025, 12, 24, 18, 30, 0),
                 EndDate = new DateTime(2025, 12, 24, 19, 30, 0)
             };

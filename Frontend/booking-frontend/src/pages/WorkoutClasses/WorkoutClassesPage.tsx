@@ -163,7 +163,7 @@ export function WorkoutClassesPage() {
               setIsModalOpen(false);
             }}
             title={selectedClass.workoutName}
-            description={selectedClass.description}
+            shortDescription={selectedClass.shortDescription}
             time={`Tid ${FormatDate(selectedClass.startDate, selectedClass.endDate)}`}
             actionLabel={isClassBooked(selectedClass.id) ? 'Avboka' : 'Boka'}
           />
@@ -188,7 +188,7 @@ export function WorkoutClassesPage() {
                   <div style={{ width: '45%' }}>
                     <AppCard
                       title={wc.workoutName}
-                      description={wc.description}
+                      shortDescription={wc.shortDescription}
                       time={FormatDate(wc.startDate, wc.endDate)}
                       bookings={`${wc.bookingIds.length} / ${wc.maxParticipants}`}
                       onClick={() => toggleBooking(wc.id)}

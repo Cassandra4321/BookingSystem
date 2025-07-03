@@ -37,7 +37,8 @@ namespace BookingSystem.API.Services
             var workoutClass = new WorkoutClass
             {
                 WorkoutName = dto.WorkoutName,
-                Description = dto.Description,
+                LongDescription = dto.LongDescription,
+                ShortDescription = dto.ShortDescription,
                 StartDate = dto.StartDate,
                 EndDate = dto.EndDate,
                 MaxParticipants = dto.MaxParticipants
@@ -56,7 +57,8 @@ namespace BookingSystem.API.Services
             }
 
             existingWorkoutClass.WorkoutName = dto.WorkoutName;
-            existingWorkoutClass.Description = dto.Description;
+            existingWorkoutClass.LongDescription = dto.LongDescription;
+            existingWorkoutClass.ShortDescription = dto.ShortDescription;
             existingWorkoutClass.StartDate = dto.StartDate;
             existingWorkoutClass.EndDate = dto.EndDate;
             existingWorkoutClass.MaxParticipants = dto.MaxParticipants;

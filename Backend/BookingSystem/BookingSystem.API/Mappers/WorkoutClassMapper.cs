@@ -11,7 +11,8 @@ namespace BookingSystem.API.Mappers
             {
                 Id = workoutClass.Id,
                 WorkoutName = workoutClass.WorkoutName,
-                Description = workoutClass.Description,
+                LongDescription = workoutClass.LongDescription,
+                ShortDescription = workoutClass.ShortDescription,
                 MaxParticipants = workoutClass.MaxParticipants,
                 BookingIds = workoutClass.Bookings?.Select(b => b.Id).ToList() ?? new List<int>(),
                 StartDate = workoutClass.StartDate,
