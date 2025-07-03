@@ -16,7 +16,8 @@ namespace BookingSystem.API.Mappers
                 WorkoutClassName = booking.WorkoutClass.WorkoutName,
                 StartDate = booking.WorkoutClass.StartDate,
                 EndDate = booking.WorkoutClass.EndDate,
-                Description = booking.WorkoutClass.Description,
+                LongDescription = booking.WorkoutClass.LongDescription,
+                ShortDescription = booking.WorkoutClass.ShortDescription,
                 MaxParticipants = booking.WorkoutClass.MaxParticipants,
                 CurrentParticipants = booking.WorkoutClass.Bookings?.Count ?? 0
             };

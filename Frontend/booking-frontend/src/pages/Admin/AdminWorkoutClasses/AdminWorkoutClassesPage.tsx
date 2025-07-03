@@ -20,7 +20,8 @@ export function AdminCRUDPage() {
   const [form, setForm] = useState<CreateWorkoutClassDto>(
     new CreateWorkoutClassDto({
       workoutName: '',
-      description: '',
+      shortDescription: '',
+      longDescription: '',
       startDate: new Date(),
       endDate: new Date(),
       maxParticipants: 0,
@@ -35,7 +36,8 @@ export function AdminCRUDPage() {
     setEditForm(
       new UpdateWorkoutClassDto({
         workoutName: workout.workoutName,
-        description: workout.description,
+        shortDescription: workout.shortDescription,
+        longDescription: workout.longDescription,
         startDate: new Date(workout.startDate!),
         endDate: new Date(workout.endDate!),
         maxParticipants: workout.maxParticipants,
@@ -121,7 +123,8 @@ export function AdminCRUDPage() {
       setForm(
         new CreateWorkoutClassDto({
           workoutName: '',
-          description: '',
+          shortDescription: '',
+          longDescription: '',
           startDate: new Date(),
           endDate: new Date(),
           maxParticipants: 0,
@@ -166,10 +169,20 @@ export function AdminCRUDPage() {
           </div>
 
           <div className="mb-3">
-            <label className="form-label">Beskrivning</label>
+            <label className="form-label">Kort Beskrivning</label>
             <textarea
-              name="description"
-              value={form.description || ''}
+              name="shortDescription"
+              value={form.shortDescription || ''}
+              onChange={handleChange}
+              className="form-control"
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Lång Beskrivning</label>
+            <textarea
+              name="longDescription"
+              value={form.longDescription || ''}
               onChange={handleChange}
               className="form-control"
             />
@@ -257,10 +270,10 @@ export function AdminCRUDPage() {
                         />
                       </div>
                       <div className="mb-2">
-                        <label>Beskrivning</label>
+                        <label>Kort Beskrivning</label>
                         <textarea
-                          name="description"
-                          value={editForm.description || ''}
+                          name="shortDescription"
+                          value={editForm.shortDescription || ''}
                           onChange={handleEditChange}
                           className="form-control"
                         />

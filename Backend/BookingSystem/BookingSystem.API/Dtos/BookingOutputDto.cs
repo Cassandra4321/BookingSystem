@@ -7,7 +7,8 @@
         public string UserName { get; set; } = null!;
         public string WorkoutClassName { get; set; } = null!;
         public int WorkoutClassId { get; set; }
-        public string Description { get; set; } = string.Empty;
+        public string LongDescription { get; set; } = string.Empty;
+        public string ShortDescription { get; set; } = string.Empty;
         public int MaxParticipants { get; set; }
         public int CurrentParticipants { get; set; }
         public DateTime StartDate { get; set; }

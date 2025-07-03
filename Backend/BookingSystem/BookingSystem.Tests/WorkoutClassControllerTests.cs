@@ -30,7 +30,7 @@ namespace BookingSystem.Tests
             var dto = new CreateWorkoutClassDto
             {
                 WorkoutName = "Yoga",
-                Description = "A relaxing yoga class.",
+                ShortDescription = "A relaxing yoga class.",
                 StartDate = DateTime.Now.AddDays(1),
                 EndDate = DateTime.Now.AddDays(1).AddHours(1),
                 MaxParticipants = 10
@@ -52,7 +52,7 @@ namespace BookingSystem.Tests
             context.WorkoutClasses.Add(new WorkoutClass
             {
                 WorkoutName = "Yoga1",
-                Description = "A relaxing yoga class.",
+                ShortDescription = "A relaxing yoga class.",
                 StartDate = DateTime.Now.AddDays(1),
                 EndDate = DateTime.Now.AddDays(1).AddHours(1),
                 MaxParticipants = 10
@@ -60,7 +60,7 @@ namespace BookingSystem.Tests
             context.WorkoutClasses.Add(new WorkoutClass
             {
                 WorkoutName = "Yoga2",
-                Description = "A relaxing yoga class.2",
+                ShortDescription = "A relaxing yoga class.2",
                 StartDate = DateTime.Now.AddDays(1),
                 EndDate = DateTime.Now.AddDays(1).AddHours(1),
                 MaxParticipants = 15
@@ -88,7 +88,7 @@ namespace BookingSystem.Tests
             var workoutClass = new WorkoutClass
             {
                 WorkoutName = "Pilates",
-                Description = "Pilates session :)",
+                ShortDescription = "Pilates session :)",
                 StartDate = DateTime.Now.AddDays(1),
                 EndDate = DateTime.Now.AddDays(1).AddHours(1),
                 MaxParticipants = 12

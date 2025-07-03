@@ -18,7 +18,7 @@ namespace BookingSystem.API.Helpers
             foreach (var booking in bookings)
             {
                 // Escape is used to ensure proper formatting of special characters
-                sb.AppendLine($"{EscapeCsv(booking.WorkoutClassName)},{EscapeCsv(booking.Description)},{booking.StartDate:yyyy-MM-dd HH:mm},{booking.EndDate:yyyy-MM-dd HH:mm}");
+                sb.AppendLine($"{EscapeCsv(booking.WorkoutClassName)},{EscapeCsv(booking.LongDescription)},{booking.StartDate:yyyy-MM-dd HH:mm},{booking.EndDate:yyyy-MM-dd HH:mm}");
             }
 
             return sb.ToString();
