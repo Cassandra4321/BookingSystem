@@ -7,7 +7,7 @@ namespace BookingSystem.API.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
         private readonly RecommendationService _recommendationService;
 
