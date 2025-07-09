@@ -5,7 +5,7 @@ namespace BookingSystem.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CsvController : Controller
+    public class CsvController : ControllerBase
     {
         private readonly CsvExportService _csvExportService;
         private readonly BookingService _bookingService;

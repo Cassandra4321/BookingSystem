@@ -34,6 +34,11 @@ namespace BookingSystem.API.Services
 
         public async Task<WorkoutClass> CreateWorkoutClassAsync(CreateWorkoutClassDto dto)
         {
+            if (dto.StartDate >= dto.EndDate)
+            {
+                throw new ArgumentException("StartDate must be before EndDate.");
+            }
+
             var workoutClass = new WorkoutClass
             {
                 WorkoutName = dto.WorkoutName,
@@ -50,6 +55,11 @@ namespace BookingSystem.API.Services
 
         public async Task<WorkoutClass?> UpdateWorkoutClassAsync(int id, UpdateWorkoutClassDto dto)
         {
+            if (dto.StartDate >= dto.EndDate)
+            {
+                throw new ArgumentException("StartDate must be before EndDate.");
+            }
+
             var existingWorkoutClass = await _context.WorkoutClasses.FindAsync(id);
             if (existingWorkoutClass == null)
             {

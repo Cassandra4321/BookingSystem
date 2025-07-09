@@ -7,7 +7,7 @@ namespace BookingSystem.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class WorkoutClassController : Controller
+    public class WorkoutClassController : ControllerBase
     {
         private readonly WorkoutClassService _workoutClassService;
 
